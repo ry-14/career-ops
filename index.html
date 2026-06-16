@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Career-Ops — Your autonomous AI job agent. Sync your resume, get deep analysis, and let autopilot handle applications." />
+  <title>Career-Ops — Your Autonomous AI Job Agent</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slate: {
+              950: '#0a0f1a',
+              900: '#0f1729',
+              850: '#141d33',
+              800: '#1a2540',
+            },
+            electric: {
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              glow: '#22d3ee',
+            },
+          },
+          fontFamily: {
+            display: ['"Instrument Sans"', 'system-ui', 'sans-serif'],
+            body: ['"DM Sans"', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            glow: '0 0 40px -8px rgba(14, 165, 233, 0.45)',
+            card: '0 4px 24px -4px rgba(0, 0, 0, 0.35)',
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    html { scroll-padding-top: 5rem; }
+    body { font-family: 'DM Sans', system-ui, sans-serif; }
+    h1, h2, h3, .font-display { font-family: 'Instrument Sans', system-ui, sans-serif; }
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(14, 165, 233, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(14, 165, 233, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    .hero-glow {
+      background: radial-gradient(ellipse 70% 50% at 50% -10%, rgba(14, 165, 233, 0.22), transparent);
+    }
+    .accent-line {
+      background: linear-gradient(90deg, transparent, #0ea5e9, #22d3ee, #0ea5e9, transparent);
+      height: 1px;
+    }
+    #auth-modal { transition: opacity 300ms ease-in-out, visibility 300ms ease-in-out; }
+    #auth-modal .auth-panel {
+      transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+      transform: translate3d(0, 1rem, 0) scale(0.98);
+      opacity: 0;
+    }
+    #auth-modal.is-open { opacity: 1; visibility: visible; }
+    #auth-modal.is-open .auth-panel {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 1;
+    }
+    body.modal-open { overflow: hidden; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-300 antialiased">
+
+  <!-- Navigation -->
+  <header class="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-slate-950/80 backdrop-blur-xl">
+    <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <a href="#hero" data-scroll="hero" class="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight text-white transition-all duration-300 ease-in-out hover:opacity-90">
+        <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-electric-500/15 ring-1 ring-electric-500/30">
+          <i data-lucide="bot" class="h-4 w-4 text-electric-400"></i>
+        </span>
+        Career-Ops
+      </a>
+      <div class="hidden items-center gap-8 text-sm font-medium md:flex">
+        <a href="#how-it-works" data-scroll="how-it-works" class="text-slate-400 transition-all duration-300 ease-in-out hover:text-white">How it Works</a>
+        <a href="#features" data-scroll="features" class="text-slate-400 transition-all duration-300 ease-in-out hover:text-white">Features</a>
+        <a href="#pricing" data-scroll="pricing" class="text-slate-400 transition-all duration-300 ease-in-out hover:text-white">Pricing</a>
+        <a href="#contact" data-scroll="contact" class="text-slate-400 transition-all duration-300 ease-in-out hover:text-white">Contact</a>
+      </div>
+      <button type="button" data-auth-open class="rounded-lg bg-electric-500 px-4 py-2 text-sm font-semibold text-white shadow-glow transition-all duration-300 ease-in-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.55)]">
+        Get Started
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section id="hero" class="relative overflow-hidden pt-28 pb-20 md:pt-36 md:pb-28 scroll-mt-24">
+      <div class="hero-glow pointer-events-none absolute inset-0"></div>
+      <div class="grid-bg pointer-events-none absolute inset-0 opacity-60"></div>
+      <div class="relative mx-auto max-w-6xl px-6 text-center">
+        <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-electric-500/25 bg-electric-500/10 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-electric-400">
+          <i data-lucide="sparkles" class="h-3.5 w-3.5"></i>
+          AI-Powered Job Search Automation
+        </div>
+        <h1 class="font-display mx-auto max-w-4xl text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+          Your Autonomous<br />
+          <span class="bg-gradient-to-r from-electric-400 via-electric-glow to-electric-500 bg-clip-text text-transparent">AI Job Agent.</span>
+        </h1>
+        <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-400 md:text-xl">
+          Upload your resume once. Let Career-Ops evaluate offers, tailor CVs, and track every application — while you focus on interviews that matter.
+        </p>
+        <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <button type="button" data-auth-open class="group inline-flex items-center gap-2.5 rounded-xl bg-electric-500 px-8 py-4 text-base font-semibold text-white shadow-glow transition-all duration-300 ease-in-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.6)]">
+            <i data-lucide="upload" class="h-5 w-5 transition-transform duration-300 ease-in-out group-hover:-translate-y-0.5"></i>
+            Upload Resume
+          </button>
+          <a href="#how-it-works" data-scroll="how-it-works" class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-8 py-4 text-base font-medium text-white transition-all duration-300 ease-in-out hover:border-electric-500/30 hover:bg-white/10">
+            See how it works
+            <i data-lucide="arrow-right" class="h-4 w-4 text-electric-400"></i>
+          </a>
+        </div>
+        <div class="mx-auto mt-16 max-w-3xl rounded-2xl border border-white/10 bg-white p-1 shadow-card transition-all duration-300 ease-in-out">
+          <div class="rounded-xl bg-slate-50 p-6 text-left md:p-8">
+            <div class="mb-4 flex items-center gap-2">
+              <span class="h-3 w-3 rounded-full bg-red-400"></span>
+              <span class="h-3 w-3 rounded-full bg-amber-400"></span>
+              <span class="h-3 w-3 rounded-full bg-emerald-400"></span>
+              <span class="ml-3 text-xs font-medium text-slate-400">career-ops pipeline</span>
+              <span class="ml-auto h-2 w-2 rounded-full bg-electric-500 animate-pulse"></span>
+            </div>
+            <div class="space-y-2 font-mono text-sm text-slate-700">
+              <p class="transition-opacity duration-300 ease-in-out"><span class="text-electric-600">→</span> Scanning 45+ company portals...</p>
+              <p class="transition-opacity duration-300 ease-in-out"><span class="text-emerald-600">✓</span> OpenAI Senior AI Engineer — <strong>3.5/5</strong> match</p>
+              <p class="transition-opacity duration-300 ease-in-out"><span class="text-electric-600">→</span> Generating tailored CV + evaluation report</p>
+              <p class="animate-pulse text-slate-400 transition-opacity duration-300 ease-in-out"><span>…</span> Tracker updated · PDF queued</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="accent-line mx-auto max-w-4xl opacity-50"></div>
+
+    <!-- How it Works -->
+    <section id="how-it-works" class="py-20 md:py-28 scroll-mt-24">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="text-center">
+          <p class="text-sm font-semibold uppercase tracking-widest text-electric-400">Workflow</p>
+          <h2 class="font-display mt-3 text-3xl font-bold text-white md:text-4xl">How it Works</h2>
+          <p class="mx-auto mt-4 max-w-xl text-slate-400">Three steps from resume to autopilot — no manual spreadsheet required.</p>
+        </div>
+        <div class="mt-16 grid gap-8 md:grid-cols-3">
+          <div class="relative rounded-2xl border border-white/10 bg-slate-900/60 p-8 backdrop-blur-sm transition-all duration-300 ease-in-out hover:border-electric-500/25 hover:-translate-y-0.5">
+            <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-electric-500/15 ring-1 ring-electric-500/30">
+              <i data-lucide="refresh-cw" class="h-7 w-7 text-electric-400"></i>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-widest text-electric-500">Step 01</span>
+            <h3 class="font-display mt-2 text-xl font-semibold text-white">Sync</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-400">
+              Upload your resume and profile. Career-Ops ingests your experience, proof points, and target roles into a single source of truth.
+            </p>
+            <div class="absolute -right-4 top-1/2 hidden -translate-y-1/2 md:block">
+              <i data-lucide="chevron-right" class="h-6 w-6 text-electric-500/50"></i>
+            </div>
+          </div>
+          <div class="relative rounded-2xl border border-white/10 bg-slate-900/60 p-8 backdrop-blur-sm transition-all duration-300 ease-in-out hover:border-electric-500/25 hover:-translate-y-0.5">
+            <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-electric-500/15 ring-1 ring-electric-500/30">
+              <i data-lucide="scan-search" class="h-7 w-7 text-electric-400"></i>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-widest text-electric-500">Step 02</span>
+            <h3 class="font-display mt-2 text-xl font-semibold text-white">Deep Analysis</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-400">
+              Every offer gets A–G scoring: CV match, comp research, interview prep, and legitimacy checks — powered by your real metrics, not generic fluff.
+            </p>
+            <div class="absolute -right-4 top-1/2 hidden -translate-y-1/2 md:block">
+              <i data-lucide="chevron-right" class="h-6 w-6 text-electric-500/50"></i>
+            </div>
+          </div>
+          <div class="relative rounded-2xl border border-electric-500/30 bg-gradient-to-b from-electric-500/10 to-slate-900/60 p-8 shadow-glow backdrop-blur-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5">
+            <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-electric-500/20 ring-1 ring-electric-400/40">
+              <i data-lucide="rocket" class="h-7 w-7 text-electric-glow"></i>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-widest text-electric-400">Step 03</span>
+            <h3 class="font-display mt-2 text-xl font-semibold text-white">Autopilot Application</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-400">
+              High-fit roles trigger tailored CVs, cover letters, and form drafts. You review — the agent handles the repetitive work.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- System Features -->
+    <section id="features" class="border-y border-white/5 bg-slate-900/40 py-20 md:py-28 scroll-mt-24">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-widest text-electric-400">System Features</p>
+            <h2 class="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
+              Built for real automation,<br />not chatbot theater.
+            </h2>
+            <p class="mt-4 text-slate-400 leading-relaxed">
+              Career-Ops runs a background Playwright browser to verify live postings, fill application forms, and generate ATS-optimized PDFs — with zero-token portal scanning when APIs are available.
+            </p>
+            <ul class="mt-8 space-y-4">
+              <li class="flex gap-4">
+                <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-slate-900">
+                  <i data-lucide="globe" class="h-4 w-4"></i>
+                </span>
+                <div>
+                  <p class="font-semibold text-white">Playwright Browser Automation</p>
+                  <p class="mt-1 text-sm text-slate-400">Headless Chromium verifies job liveness, snapshots JDs, and assists live application flows — you always approve before submit.</p>
+                </div>
+              </li>
+              <li class="flex gap-4">
+                <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-slate-900">
+                  <i data-lucide="layout-list" class="h-4 w-4"></i>
+                </span>
+                <div>
+                  <p class="font-semibold text-white">Automated Tracking Pipeline</p>
+                  <p class="mt-1 text-sm text-slate-400">Every evaluation lands in your applications tracker with scores, reports, PDF status, and canonical follow-up cadence.</p>
+                </div>
+              </li>
+              <li class="flex gap-4">
+                <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-slate-900">
+                  <i data-lucide="shield-check" class="h-4 w-4"></i>
+                </span>
+                <div>
+                  <p class="font-semibold text-white">Quality-First Ethics</p>
+                  <p class="mt-1 text-sm text-slate-400">Strong matches only. Low-fit applications are flagged — your time and recruiters' time stay protected.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white p-8 shadow-card transition-all duration-300 ease-in-out">
+            <h3 class="font-display text-lg font-semibold text-slate-900">Live Pipeline Status</h3>
+            <p class="mt-1 flex items-center gap-2 text-sm text-slate-500">
+              Automated tracker · last sync 2m ago
+              <span class="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            </p>
+            <div class="mt-6 space-y-3">
+              <div class="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 transition-all duration-300 ease-in-out">
+                <div class="flex items-center gap-3">
+                  <i data-lucide="building-2" class="h-4 w-4 text-electric-600"></i>
+                  <span class="text-sm font-medium text-slate-800">OpenAI</span>
+                </div>
+                <span class="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-800">Evaluated</span>
+              </div>
+              <div class="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 transition-all duration-300 ease-in-out">
+                <div class="flex items-center gap-3">
+                  <i data-lucide="radar" class="h-4 w-4 text-electric-600"></i>
+                  <span class="text-sm font-medium text-slate-800">Portal Scan</span>
+                </div>
+                <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">12 new</span>
+              </div>
+              <div class="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 transition-all duration-300 ease-in-out">
+                <div class="flex items-center gap-3">
+                  <i data-lucide="file-text" class="h-4 w-4 text-electric-600"></i>
+                  <span class="text-sm font-medium text-slate-800">CV PDF</span>
+                </div>
+                <span class="rounded-full bg-electric-100 px-2.5 py-0.5 text-xs font-semibold text-electric-800">Ready</span>
+              </div>
+            </div>
+            <div class="mt-6 flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-3 text-xs text-slate-300">
+              <i data-lucide="terminal" class="h-4 w-4 shrink-0 text-electric-400 animate-pulse"></i>
+              <code class="truncate">node scan.mjs · 0 LLM tokens</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-20 md:py-28 scroll-mt-24">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="text-center">
+          <p class="text-sm font-semibold uppercase tracking-widest text-electric-400">Pricing</p>
+          <h2 class="font-display mt-3 text-3xl font-bold text-white md:text-4xl">Plans for every stage</h2>
+          <p class="mx-auto mt-4 max-w-xl text-slate-400">Start free. Scale when your pipeline demands it.</p>
+        </div>
+        <div class="mt-14 grid gap-6 md:grid-cols-3">
+          <!-- Free -->
+          <div class="flex flex-col rounded-2xl border border-white/10 bg-slate-900/50 p-8 transition-all duration-300 ease-in-out hover:border-white/20">
+            <h3 class="font-display text-lg font-semibold text-white">Free</h3>
+            <p class="mt-1 text-sm text-slate-400">Explore the agent</p>
+            <p class="mt-6 font-display text-4xl font-bold text-white">$0<span class="text-lg font-normal text-slate-500">/mo</span></p>
+            <ul class="mt-8 flex-1 space-y-3 text-sm text-slate-400">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-400"></i> 5 offer evaluations / month</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-400"></i> Basic application tracker</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-400"></i> CV markdown sync</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-400"></i> Community support</li>
+            </ul>
+            <button type="button" data-scroll="contact" class="mt-8 block w-full rounded-xl border border-white/15 py-3 text-center text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:border-electric-500/40 hover:bg-white/5">Get Started</button>
+          </div>
+          <!-- Pro -->
+          <div class="relative flex flex-col rounded-2xl border border-electric-500/40 bg-gradient-to-b from-electric-500/10 to-slate-900/80 p-8 shadow-glow transition-all duration-300 ease-in-out hover:border-electric-500/60">
+            <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-electric-500 px-3 py-0.5 text-xs font-bold uppercase tracking-wide text-white">Popular</span>
+            <h3 class="font-display text-lg font-semibold text-white">Pro</h3>
+            <p class="mt-1 text-sm text-slate-400">Active job seekers</p>
+            <p class="mt-6 font-display text-4xl font-bold text-white">$29<span class="text-lg font-normal text-slate-500">/mo</span></p>
+            <ul class="mt-8 flex-1 space-y-3 text-sm text-slate-300">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-glow"></i> Unlimited evaluations</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-glow"></i> Playwright apply assistant</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-glow"></i> Tailored CV PDF generation</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-glow"></i> Portal scan + batch mode</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-glow"></i> Priority email support</li>
+            </ul>
+            <button type="button" data-scroll="contact" class="mt-8 block w-full rounded-xl bg-electric-500 py-3 text-center text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-electric-600">Start Pro Trial</button>
+          </div>
+          <!-- Enterprise -->
+          <div class="flex flex-col rounded-2xl border border-white/10 bg-slate-900/50 p-8 transition-all duration-300 ease-in-out hover:border-white/20">
+            <h3 class="font-display text-lg font-semibold text-white">Enterprise</h3>
+            <p class="mt-1 text-sm text-slate-400">Teams &amp; outplacement</p>
+            <p class="mt-6 font-display text-4xl font-bold text-white">Custom</p>
+            <ul class="mt-8 flex-1 space-y-3 text-sm text-slate-400">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-400"></i> Multi-seat workspaces</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-400"></i> SSO &amp; audit logs</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-400"></i> Custom archetypes &amp; scoring</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-400"></i> Dedicated success manager</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-400"></i> SLA &amp; on-prem options</li>
+            </ul>
+            <button type="button" data-scroll="contact" class="mt-8 block w-full rounded-xl border border-white/15 py-3 text-center text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:border-electric-500/40 hover:bg-white/5">Contact Sales</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="border-t border-white/5 bg-slate-900/30 py-20 md:py-28 scroll-mt-24">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-widest text-electric-400">Contact</p>
+            <h2 class="font-display mt-3 text-3xl font-bold text-white md:text-4xl">Start your pipeline</h2>
+            <p class="mt-4 text-slate-400 leading-relaxed">
+              Leave your details and we'll reach out with early access. No spam — just a direct line to the agent.
+            </p>
+            <div class="mt-8 flex flex-col gap-4 text-sm text-slate-400">
+              <span class="flex items-center gap-3">
+                <i data-lucide="mail" class="h-4 w-4 text-electric-400"></i>
+                hello@career-ops.dev
+              </span>
+              <span class="flex items-center gap-3">
+                <i data-lucide="message-circle" class="h-4 w-4 text-electric-400"></i>
+                discord.gg/career-ops
+              </span>
+            </div>
+          </div>
+          <form class="rounded-2xl border border-white/10 bg-white p-8 shadow-card transition-all duration-300 ease-in-out" action="#" method="post">
+            <div class="space-y-5">
+              <div>
+                <label for="name" class="block text-sm font-medium text-slate-700">Name</label>
+                <input type="text" id="name" name="name" required placeholder="Jane Smith" class="mt-1.5 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-300 ease-in-out focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-medium text-slate-700">Email</label>
+                <input type="email" id="email" name="email" required placeholder="you@company.com" class="mt-1.5 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-300 ease-in-out focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+              </div>
+              <div>
+                <label for="role" class="block text-sm font-medium text-slate-700">Target role</label>
+                <input type="text" id="role" name="role" placeholder="Senior AI Engineer" class="mt-1.5 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-300 ease-in-out focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+              </div>
+              <div>
+                <label for="message" class="block text-sm font-medium text-slate-700">Message <span class="text-slate-400">(optional)</span></label>
+                <textarea id="message" name="message" rows="3" placeholder="Tell us about your search..." class="mt-1.5 w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-300 ease-in-out focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20"></textarea>
+              </div>
+              <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 py-3.5 text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-slate-800">
+                <i data-lucide="send" class="h-4 w-4"></i>
+                Request Access
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/5 py-10">
+    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 text-sm text-slate-500 md:flex-row">
+      <p>&copy; 2026 Career-Ops. Open-source AI job search automation.</p>
+      <div class="flex gap-6">
+        <a href="https://github.com/santifer/career-ops" class="transition-all duration-300 ease-in-out hover:text-electric-400">GitHub</a>
+        <a href="#pricing" data-scroll="pricing" class="transition-all duration-300 ease-in-out hover:text-electric-400">Pricing</a>
+        <a href="#contact" data-scroll="contact" class="transition-all duration-300 ease-in-out hover:text-electric-400">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Auth Modal -->
+  <div id="auth-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 invisible" aria-hidden="true" role="dialog" aria-labelledby="auth-modal-title">
+    <div id="auth-backdrop" class="absolute inset-0 bg-slate-950/80 backdrop-blur-md" data-auth-close></div>
+    <div class="auth-panel relative w-full max-w-md rounded-2xl border border-electric-500/40 bg-slate-900 p-8 shadow-glow">
+      <button type="button" data-auth-close class="absolute right-4 top-4 rounded-lg p-1.5 text-slate-400 transition-all duration-300 ease-in-out hover:bg-white/5 hover:text-white" aria-label="Close">
+        <i data-lucide="x" class="h-5 w-5"></i>
+      </button>
+      <div class="mb-6 flex items-center gap-3">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-electric-500/15 ring-1 ring-electric-500/30">
+          <i data-lucide="log-in" class="h-5 w-5 text-electric-400"></i>
+        </span>
+        <div>
+          <h2 id="auth-modal-title" class="font-display text-xl font-semibold text-white">Welcome back</h2>
+          <p class="text-sm text-slate-400">Sign in to sync your resume and pipeline</p>
+        </div>
+      </div>
+      <form id="auth-form" class="space-y-4" action="#" method="post">
+        <div>
+          <label for="auth-email" class="block text-sm font-medium text-slate-300">Email</label>
+          <input type="email" id="auth-email" name="email" required autocomplete="email" placeholder="you@company.com" class="mt-1.5 w-full rounded-lg border border-white/10 bg-slate-950/80 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none transition-all duration-300 ease-in-out focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+        </div>
+        <div>
+          <label for="auth-password" class="block text-sm font-medium text-slate-300">Password</label>
+          <input type="password" id="auth-password" name="password" required autocomplete="current-password" placeholder="••••••••" class="mt-1.5 w-full rounded-lg border border-white/10 bg-slate-950/80 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none transition-all duration-300 ease-in-out focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+        </div>
+        <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-electric-500 py-3.5 text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-electric-600">
+          <i data-lucide="log-in" class="h-4 w-4"></i>
+          Sign In
+        </button>
+      </form>
+      <p class="mt-5 text-center text-xs text-slate-500">
+        No account?
+        <button type="button" data-scroll="contact" data-auth-close class="font-medium text-electric-400 transition-all duration-300 ease-in-out hover:text-electric-glow">Request access</button>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    const authModal = document.getElementById('auth-modal');
+    const authForm = document.getElementById('auth-form');
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function openAuthModal() {
+      authModal.classList.add('is-open');
+      authModal.classList.remove('invisible', 'opacity-0');
+      authModal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+      const emailInput = document.getElementById('auth-email');
+      if (emailInput) setTimeout(() => emailInput.focus(), 100);
+    }
+
+    function closeAuthModal() {
+      authModal.classList.remove('is-open');
+      authModal.classList.add('invisible', 'opacity-0');
+      authModal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+    }
+
+    document.querySelectorAll('[data-scroll]').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        const target = el.getAttribute('data-scroll');
+        if (!target) return;
+        e.preventDefault();
+        closeAuthModal();
+        scrollToSection(target);
+      });
+    });
+
+    document.querySelectorAll('[data-auth-open]').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        openAuthModal();
+      });
+    });
+
+    document.querySelectorAll('[data-auth-close]').forEach((el) => {
+      el.addEventListener('click', closeAuthModal);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && authModal.classList.contains('is-open')) closeAuthModal();
+    });
+
+    authForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      closeAuthModal();
+      scrollToSection('contact');
+    });
+  </script>
+</body>
+</html>
