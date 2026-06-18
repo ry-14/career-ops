@@ -75,11 +75,11 @@
         <a href="#features" data-scroll="features" class="text-slate-400 transition-all duration-300 ease-in-out hover:text-white">Features</a>
         <a href="#pricing" data-scroll="pricing" class="text-slate-400 transition-all duration-300 ease-in-out hover:text-white">Pricing</a>
         <a href="#contact" data-scroll="contact" class="text-slate-400 transition-all duration-300 ease-in-out hover:text-white">Contact</a>
-        <a href="login.html" class="text-slate-400 transition-all duration-300 ease-in-out hover:text-white">Log in</a>
+        <button type="button" data-open-auth-modal data-auth-tab="login" class="text-slate-400 transition-all duration-300 ease-in-out hover:text-white">Log in</button>
       </div>
-      <a href="login.html" class="rounded-lg bg-electric-500 px-4 py-2 text-sm font-semibold text-white shadow-glow transition-all duration-300 ease-in-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.55)]">
+      <button type="button" data-open-auth-modal data-auth-tab="register" class="rounded-lg bg-electric-500 px-4 py-2 text-sm font-semibold text-white shadow-glow transition-all duration-300 ease-in-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.55)]">
         Get Started
-      </a>
+      </button>
     </nav>
   </header>
 
@@ -359,6 +359,60 @@
     </div>
   </footer>
 
+  <!-- Auth Modal -->
+  <div id="auth-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-6" aria-hidden="true">
+    <div id="auth-modal-backdrop" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+    <div class="relative w-full max-w-md rounded-2xl border border-electric-500/40 bg-slate-900/95 p-8 shadow-glow backdrop-blur-sm" role="dialog" aria-modal="true">
+      <button type="button" id="auth-modal-close" class="absolute right-4 top-4 rounded-lg p-1.5 text-slate-500 transition-all duration-300 ease-in-out hover:bg-white/5 hover:text-white" aria-label="Close">
+        <i data-lucide="x" class="h-5 w-5"></i>
+      </button>
+
+      <div class="mb-6 flex items-center justify-center gap-6 border-b border-white/10 pb-4">
+        <button type="button" id="auth-tab-login" data-auth-tab="login" class="text-sm font-semibold text-electric-400 transition-all duration-300 ease-in-out">Log In</button>
+        <button type="button" id="auth-tab-register" data-auth-tab="register" class="text-sm font-semibold text-slate-500 transition-all duration-300 ease-in-out hover:text-slate-400">Create Account</button>
+      </div>
+
+      <form id="auth-form" class="space-y-5" action="#" method="post">
+        <div id="auth-name-field" class="hidden">
+          <label for="auth-name" class="block text-sm font-medium text-slate-300">Name</label>
+          <input type="text" id="auth-name" name="name" autocomplete="name" placeholder="Your full name"
+            class="mt-1.5 w-full rounded-lg border border-white/10 bg-slate-950/80 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none transition-all duration-300 ease-in-out focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+        </div>
+        <div>
+          <label for="auth-email" class="block text-sm font-medium text-slate-300">Email</label>
+          <input type="email" id="auth-email" name="email" required autocomplete="email" placeholder="you@company.com"
+            class="mt-1.5 w-full rounded-lg border border-white/10 bg-slate-950/80 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none transition-all duration-300 ease-in-out focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+        </div>
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="auth-password" class="block text-sm font-medium text-slate-300">Password</label>
+            <a href="#" id="auth-forgot-link" class="text-xs font-medium text-electric-400 transition-all duration-300 ease-in-out hover:text-electric-glow">Forgot password?</a>
+          </div>
+          <input type="password" id="auth-password" name="password" required autocomplete="current-password" placeholder="••••••••"
+            class="mt-1.5 w-full rounded-lg border border-white/10 bg-slate-950/80 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none transition-all duration-300 ease-in-out focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+        </div>
+        <label id="auth-remember-row" class="flex cursor-pointer items-center gap-2.5 text-sm text-slate-400">
+          <input type="checkbox" name="remember" class="h-4 w-4 rounded border-white/20 bg-slate-950 text-electric-500 focus:ring-electric-500/30" />
+          Remember me
+        </label>
+        <button type="submit" id="auth-submit-btn" class="flex w-full items-center justify-center gap-2 rounded-xl bg-electric-500 py-3.5 text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.55)]">
+          <i data-lucide="log-in" class="h-4 w-4"></i>
+          <span id="auth-submit-label">Log In</span>
+        </button>
+      </form>
+
+      <div id="auth-divider" class="relative my-6">
+        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-white/10"></div></div>
+        <div class="relative flex justify-center text-xs uppercase tracking-widest"><span class="bg-slate-900/95 px-3 text-slate-500">or</span></div>
+      </div>
+
+      <button type="button" id="auth-github-btn" class="flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-slate-950/60 py-3 text-sm font-medium text-white transition-all duration-300 ease-in-out hover:border-electric-500/30 hover:bg-white/5">
+        <i data-lucide="github" class="h-4 w-4"></i>
+        Continue with GitHub
+      </button>
+    </div>
+  </div>
+
   <script>
     lucide.createIcons();
 
@@ -369,6 +423,63 @@
         e.preventDefault();
         const section = document.getElementById(target);
         if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    const authModal = document.getElementById('auth-modal');
+    const authTabLogin = document.getElementById('auth-tab-login');
+    const authTabRegister = document.getElementById('auth-tab-register');
+    const authNameField = document.getElementById('auth-name-field');
+    const authNameInput = document.getElementById('auth-name');
+    const authPasswordInput = document.getElementById('auth-password');
+    const authSubmitLabel = document.getElementById('auth-submit-label');
+    const authForgotLink = document.getElementById('auth-forgot-link');
+    const authRememberRow = document.getElementById('auth-remember-row');
+    const authDivider = document.getElementById('auth-divider');
+    const authGithubBtn = document.getElementById('auth-github-btn');
+
+    function setAuthTab(mode) {
+      const isLogin = mode === 'login';
+      authTabLogin.classList.toggle('text-electric-400', isLogin);
+      authTabLogin.classList.toggle('text-slate-500', !isLogin);
+      authTabRegister.classList.toggle('text-electric-400', !isLogin);
+      authTabRegister.classList.toggle('text-slate-500', isLogin);
+      authNameField.classList.toggle('hidden', isLogin);
+      authNameInput.required = !isLogin;
+      authPasswordInput.autocomplete = isLogin ? 'current-password' : 'new-password';
+      authSubmitLabel.textContent = isLogin ? 'Log In' : 'Create Account';
+      authForgotLink.classList.toggle('hidden', !isLogin);
+      authRememberRow.classList.toggle('hidden', !isLogin);
+      authDivider.classList.toggle('hidden', !isLogin);
+      authGithubBtn.classList.toggle('hidden', !isLogin);
+    }
+
+    authTabLogin.addEventListener('click', () => setAuthTab('login'));
+    authTabRegister.addEventListener('click', () => setAuthTab('register'));
+    setAuthTab('login');
+
+    function openAuthModal(tab = 'login') {
+      authModal.classList.remove('hidden');
+      authModal.classList.add('flex');
+      authModal.setAttribute('aria-hidden', 'false');
+      setAuthTab(tab);
+      lucide.createIcons();
+    }
+
+    function closeAuthModal() {
+      authModal.classList.add('hidden');
+      authModal.classList.remove('flex');
+      authModal.setAttribute('aria-hidden', 'true');
+    }
+
+    document.getElementById('auth-modal-close').addEventListener('click', closeAuthModal);
+    document.getElementById('auth-modal-backdrop').addEventListener('click', closeAuthModal);
+    document.getElementById('auth-form').addEventListener('submit', (e) => e.preventDefault());
+
+    document.querySelectorAll('[data-open-auth-modal]').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        openAuthModal(el.dataset.authTab || 'login');
       });
     });
   </script>
