@@ -57,18 +57,6 @@
       background: linear-gradient(90deg, transparent, #0ea5e9, #22d3ee, #0ea5e9, transparent);
       height: 1px;
     }
-    #auth-modal { transition: opacity 300ms ease-in-out, visibility 300ms ease-in-out; }
-    #auth-modal .auth-panel {
-      transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
-      transform: translate3d(0, 1rem, 0) scale(0.98);
-      opacity: 0;
-    }
-    #auth-modal.is-open { opacity: 1; visibility: visible; }
-    #auth-modal.is-open .auth-panel {
-      transform: translate3d(0, 0, 0) scale(1);
-      opacity: 1;
-    }
-    body.modal-open { overflow: hidden; }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-300 antialiased">
@@ -87,10 +75,11 @@
         <a href="#features" data-scroll="features" class="text-slate-400 transition-all duration-300 ease-in-out hover:text-white">Features</a>
         <a href="#pricing" data-scroll="pricing" class="text-slate-400 transition-all duration-300 ease-in-out hover:text-white">Pricing</a>
         <a href="#contact" data-scroll="contact" class="text-slate-400 transition-all duration-300 ease-in-out hover:text-white">Contact</a>
+        <a href="login.html" class="text-slate-400 transition-all duration-300 ease-in-out hover:text-white">Log in</a>
       </div>
-      <button type="button" data-auth-open class="rounded-lg bg-electric-500 px-4 py-2 text-sm font-semibold text-white shadow-glow transition-all duration-300 ease-in-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.55)]">
+      <a href="login.html" class="rounded-lg bg-electric-500 px-4 py-2 text-sm font-semibold text-white shadow-glow transition-all duration-300 ease-in-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.55)]">
         Get Started
-      </button>
+      </a>
     </nav>
   </header>
 
@@ -112,10 +101,10 @@
           Upload your resume once. Let Career-Ops evaluate offers, tailor CVs, and track every application — while you focus on interviews that matter.
         </p>
         <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <button type="button" data-auth-open class="group inline-flex items-center gap-2.5 rounded-xl bg-electric-500 px-8 py-4 text-base font-semibold text-white shadow-glow transition-all duration-300 ease-in-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.6)]">
+          <a href="login.html" class="group inline-flex items-center gap-2.5 rounded-xl bg-electric-500 px-8 py-4 text-base font-semibold text-white shadow-glow transition-all duration-300 ease-in-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.6)]">
             <i data-lucide="upload" class="h-5 w-5 transition-transform duration-300 ease-in-out group-hover:-translate-y-0.5"></i>
             Upload Resume
-          </button>
+          </a>
           <a href="#how-it-works" data-scroll="how-it-works" class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-8 py-4 text-base font-medium text-white transition-all duration-300 ease-in-out hover:border-electric-500/30 hover:bg-white/10">
             See how it works
             <i data-lucide="arrow-right" class="h-4 w-4 text-electric-400"></i>
@@ -292,7 +281,7 @@
               <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-400"></i> CV markdown sync</li>
               <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-400"></i> Community support</li>
             </ul>
-            <button type="button" data-scroll="contact" class="mt-8 block w-full rounded-xl border border-white/15 py-3 text-center text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:border-electric-500/40 hover:bg-white/5">Get Started</button>
+            <a href="login.html" class="mt-8 block w-full rounded-xl border border-white/15 py-3 text-center text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:border-electric-500/40 hover:bg-white/5">Get Started</a>
           </div>
           <!-- Pro -->
           <div class="relative flex flex-col rounded-2xl border border-electric-500/40 bg-gradient-to-b from-electric-500/10 to-slate-900/80 p-8 shadow-glow transition-all duration-300 ease-in-out hover:border-electric-500/60">
@@ -307,7 +296,7 @@
               <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-glow"></i> Portal scan + batch mode</li>
               <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-glow"></i> Priority email support</li>
             </ul>
-            <button type="button" data-scroll="contact" class="mt-8 block w-full rounded-xl bg-electric-500 py-3 text-center text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-electric-600">Start Pro Trial</button>
+            <a href="login.html" class="mt-8 block w-full rounded-xl bg-electric-500 py-3 text-center text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-electric-600">Start Pro Trial</a>
           </div>
           <!-- Enterprise -->
           <div class="flex flex-col rounded-2xl border border-white/10 bg-slate-900/50 p-8 transition-all duration-300 ease-in-out hover:border-white/20">
@@ -321,7 +310,7 @@
               <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-400"></i> Dedicated success manager</li>
               <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-electric-400"></i> SLA &amp; on-prem options</li>
             </ul>
-            <button type="button" data-scroll="contact" class="mt-8 block w-full rounded-xl border border-white/15 py-3 text-center text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:border-electric-500/40 hover:bg-white/5">Contact Sales</button>
+            <a href="login.html" class="mt-8 block w-full rounded-xl border border-white/15 py-3 text-center text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:border-electric-500/40 hover:bg-white/5">Contact Sales</a>
           </div>
         </div>
       </div>
@@ -329,50 +318,30 @@
 
     <!-- Contact -->
     <section id="contact" class="border-t border-white/5 bg-slate-900/30 py-20 md:py-28 scroll-mt-24">
-      <div class="mx-auto max-w-6xl px-6">
-        <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <p class="text-sm font-semibold uppercase tracking-widest text-electric-400">Contact</p>
-            <h2 class="font-display mt-3 text-3xl font-bold text-white md:text-4xl">Start your pipeline</h2>
-            <p class="mt-4 text-slate-400 leading-relaxed">
-              Leave your details and we'll reach out with early access. No spam — just a direct line to the agent.
-            </p>
-            <div class="mt-8 flex flex-col gap-4 text-sm text-slate-400">
-              <span class="flex items-center gap-3">
-                <i data-lucide="mail" class="h-4 w-4 text-electric-400"></i>
-                hello@career-ops.dev
-              </span>
-              <span class="flex items-center gap-3">
-                <i data-lucide="message-circle" class="h-4 w-4 text-electric-400"></i>
-                discord.gg/career-ops
-              </span>
-            </div>
-          </div>
-          <form class="rounded-2xl border border-white/10 bg-white p-8 shadow-card transition-all duration-300 ease-in-out" action="#" method="post">
-            <div class="space-y-5">
-              <div>
-                <label for="name" class="block text-sm font-medium text-slate-700">Name</label>
-                <input type="text" id="name" name="name" required placeholder="Jane Smith" class="mt-1.5 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-300 ease-in-out focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
-              </div>
-              <div>
-                <label for="email" class="block text-sm font-medium text-slate-700">Email</label>
-                <input type="email" id="email" name="email" required placeholder="you@company.com" class="mt-1.5 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-300 ease-in-out focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
-              </div>
-              <div>
-                <label for="role" class="block text-sm font-medium text-slate-700">Target role</label>
-                <input type="text" id="role" name="role" placeholder="Senior AI Engineer" class="mt-1.5 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-300 ease-in-out focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
-              </div>
-              <div>
-                <label for="message" class="block text-sm font-medium text-slate-700">Message <span class="text-slate-400">(optional)</span></label>
-                <textarea id="message" name="message" rows="3" placeholder="Tell us about your search..." class="mt-1.5 w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-300 ease-in-out focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20"></textarea>
-              </div>
-              <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 py-3.5 text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-slate-800">
-                <i data-lucide="send" class="h-4 w-4"></i>
-                Request Access
-              </button>
-            </div>
-          </form>
+      <div class="mx-auto max-w-2xl px-6 text-center">
+        <p class="text-sm font-semibold uppercase tracking-widest text-electric-400">Contact</p>
+        <h2 class="font-display mt-3 text-3xl font-bold text-white md:text-4xl">Get in touch</h2>
+        <p class="mt-4 text-slate-400 leading-relaxed">
+          Questions about Career-Ops? Reach out directly — we're here to help.
+        </p>
+        <div class="mt-10 flex flex-col items-center justify-center gap-6 sm:flex-row sm:gap-12">
+          <a href="mailto:hello@career-ops.dev" class="flex items-center gap-3 text-sm text-slate-300 transition-all duration-300 ease-in-out hover:text-electric-400">
+            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-electric-500/15 ring-1 ring-electric-500/30">
+              <i data-lucide="mail" class="h-4 w-4 text-electric-400"></i>
+            </span>
+            hello@career-ops.dev
+          </a>
+          <a href="https://discord.gg/8pRpHETxa4" class="flex items-center gap-3 text-sm text-slate-300 transition-all duration-300 ease-in-out hover:text-electric-400">
+            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-electric-500/15 ring-1 ring-electric-500/30">
+              <i data-lucide="message-circle" class="h-4 w-4 text-electric-400"></i>
+            </span>
+            Discord community
+          </a>
         </div>
+        <a href="login.html" class="mt-10 inline-flex items-center gap-2 rounded-xl bg-electric-500 px-8 py-3.5 text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-electric-600">
+          <i data-lucide="log-in" class="h-4 w-4"></i>
+          Sign in to your account
+        </a>
       </div>
     </section>
   </main>
@@ -384,104 +353,23 @@
       <div class="flex gap-6">
         <a href="https://github.com/santifer/career-ops" class="transition-all duration-300 ease-in-out hover:text-electric-400">GitHub</a>
         <a href="#pricing" data-scroll="pricing" class="transition-all duration-300 ease-in-out hover:text-electric-400">Pricing</a>
+        <a href="login.html" class="transition-all duration-300 ease-in-out hover:text-electric-400">Log in</a>
         <a href="#contact" data-scroll="contact" class="transition-all duration-300 ease-in-out hover:text-electric-400">Contact</a>
       </div>
     </div>
   </footer>
 
-  <!-- Auth Modal -->
-  <div id="auth-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 invisible" aria-hidden="true" role="dialog" aria-labelledby="auth-modal-title">
-    <div id="auth-backdrop" class="absolute inset-0 bg-slate-950/80 backdrop-blur-md" data-auth-close></div>
-    <div class="auth-panel relative w-full max-w-md rounded-2xl border border-electric-500/40 bg-slate-900 p-8 shadow-glow">
-      <button type="button" data-auth-close class="absolute right-4 top-4 rounded-lg p-1.5 text-slate-400 transition-all duration-300 ease-in-out hover:bg-white/5 hover:text-white" aria-label="Close">
-        <i data-lucide="x" class="h-5 w-5"></i>
-      </button>
-      <div class="mb-6 flex items-center gap-3">
-        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-electric-500/15 ring-1 ring-electric-500/30">
-          <i data-lucide="log-in" class="h-5 w-5 text-electric-400"></i>
-        </span>
-        <div>
-          <h2 id="auth-modal-title" class="font-display text-xl font-semibold text-white">Welcome back</h2>
-          <p class="text-sm text-slate-400">Sign in to sync your resume and pipeline</p>
-        </div>
-      </div>
-      <form id="auth-form" class="space-y-4" action="#" method="post">
-        <div>
-          <label for="auth-email" class="block text-sm font-medium text-slate-300">Email</label>
-          <input type="email" id="auth-email" name="email" required autocomplete="email" placeholder="you@company.com" class="mt-1.5 w-full rounded-lg border border-white/10 bg-slate-950/80 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none transition-all duration-300 ease-in-out focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
-        </div>
-        <div>
-          <label for="auth-password" class="block text-sm font-medium text-slate-300">Password</label>
-          <input type="password" id="auth-password" name="password" required autocomplete="current-password" placeholder="••••••••" class="mt-1.5 w-full rounded-lg border border-white/10 bg-slate-950/80 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none transition-all duration-300 ease-in-out focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
-        </div>
-        <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-electric-500 py-3.5 text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-electric-600">
-          <i data-lucide="log-in" class="h-4 w-4"></i>
-          Sign In
-        </button>
-      </form>
-      <p class="mt-5 text-center text-xs text-slate-500">
-        No account?
-        <button type="button" data-scroll="contact" data-auth-close class="font-medium text-electric-400 transition-all duration-300 ease-in-out hover:text-electric-glow">Request access</button>
-      </p>
-    </div>
-  </div>
-
   <script>
     lucide.createIcons();
-
-    const authModal = document.getElementById('auth-modal');
-    const authForm = document.getElementById('auth-form');
-
-    function scrollToSection(id) {
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    function openAuthModal() {
-      authModal.classList.add('is-open');
-      authModal.classList.remove('invisible', 'opacity-0');
-      authModal.setAttribute('aria-hidden', 'false');
-      document.body.classList.add('modal-open');
-      const emailInput = document.getElementById('auth-email');
-      if (emailInput) setTimeout(() => emailInput.focus(), 100);
-    }
-
-    function closeAuthModal() {
-      authModal.classList.remove('is-open');
-      authModal.classList.add('invisible', 'opacity-0');
-      authModal.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('modal-open');
-    }
 
     document.querySelectorAll('[data-scroll]').forEach((el) => {
       el.addEventListener('click', (e) => {
         const target = el.getAttribute('data-scroll');
         if (!target) return;
         e.preventDefault();
-        closeAuthModal();
-        scrollToSection(target);
+        const section = document.getElementById(target);
+        if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
-    });
-
-    document.querySelectorAll('[data-auth-open]').forEach((el) => {
-      el.addEventListener('click', (e) => {
-        e.preventDefault();
-        openAuthModal();
-      });
-    });
-
-    document.querySelectorAll('[data-auth-close]').forEach((el) => {
-      el.addEventListener('click', closeAuthModal);
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && authModal.classList.contains('is-open')) closeAuthModal();
-    });
-
-    authForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      closeAuthModal();
-      scrollToSection('contact');
     });
   </script>
 </body>

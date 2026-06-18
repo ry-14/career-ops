@@ -1,0 +1,1 @@
+import { resolve } from 'path'; import { pathToFileURL } from 'url'; const p=resolve('generate-pdf.mjs'); console.log('file://'+resolve(process.argv[1])); console.log(pathToFileURL(process.argv[1]).href);  
