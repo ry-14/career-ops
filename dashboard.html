@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Your Career-Ops dashboard." />
+  <meta name="description" content="Your Career-Ops dashboard — application pipeline at a glance." />
   <title>Dashboard — Career-Ops</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -30,35 +30,154 @@
   <style>
     body { font-family: 'DM Sans', system-ui, sans-serif; }
     h1, h2, .font-display { font-family: 'Instrument Sans', system-ui, sans-serif; }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
+    }
   </style>
 </head>
 <body class="min-h-screen bg-slate-950 text-slate-300 antialiased">
 
-  <div class="relative flex min-h-screen flex-col">
-    <header class="relative z-10 border-b border-white/5 bg-slate-950/80 backdrop-blur-xl">
-      <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="index.html" class="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight text-white transition-all duration-300 ease-in-out hover:opacity-90">
-          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-electric-500/15 ring-1 ring-electric-500/30">
-            <i data-lucide="bot" class="h-4 w-4 text-electric-400"></i>
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-lg focus:bg-electric-500 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white">
+    Skip to main content
+  </a>
+
+  <div class="flex min-h-screen">
+    <!-- Sidebar (desktop) -->
+    <aside class="hidden w-64 flex-col border-r border-white/5 bg-slate-900/40 px-4 py-6 lg:flex">
+      <a href="index.html" class="mb-8 flex items-center gap-2.5 px-2 font-display text-lg font-semibold tracking-tight text-white">
+        <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-electric-500/15 ring-1 ring-electric-500/30">
+          <i data-lucide="bot" class="h-4 w-4 text-electric-400" aria-hidden="true"></i>
+        </span>
+        Career-Ops
+      </a>
+
+      <nav aria-label="Primary" class="flex flex-1 flex-col gap-1">
+        <a href="dashboard.html" aria-current="page" class="flex items-center gap-3 rounded-lg bg-electric-500/10 px-3 py-2.5 text-sm font-medium text-electric-400 ring-1 ring-electric-500/20">
+          <i data-lucide="layout-dashboard" class="h-4 w-4" aria-hidden="true"></i>
+          Dashboard
+        </a>
+        <a href="#applications" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+          <i data-lucide="briefcase" class="h-4 w-4" aria-hidden="true"></i>
+          Applications
+        </a>
+        <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+          <i data-lucide="search" class="h-4 w-4" aria-hidden="true"></i>
+          Scan portals
+        </a>
+        <a href="settings.html" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+          <i data-lucide="settings" class="h-4 w-4" aria-hidden="true"></i>
+          Settings
+        </a>
+      </nav>
+
+      <div class="mt-auto border-t border-white/5 pt-4">
+        <div class="flex items-center gap-3 rounded-lg px-2 py-2">
+          <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-electric-500/15 ring-1 ring-electric-500/30">
+            <i data-lucide="user" class="h-4 w-4 text-electric-400" aria-hidden="true"></i>
+          </span>
+          <div class="min-w-0 flex-1">
+            <p id="sidebar-email" class="truncate text-sm font-medium text-white">Loading…</p>
+          </div>
+        </div>
+        <button type="button" id="logout-btn" class="mt-2 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-red-500/10 hover:text-red-400">
+          <i data-lucide="log-out" class="h-4 w-4" aria-hidden="true"></i>
+          Log out
+        </button>
+      </div>
+    </aside>
+
+    <div class="flex flex-1 flex-col">
+      <!-- Top bar (mobile) -->
+      <header class="flex items-center justify-between border-b border-white/5 bg-slate-950/80 px-4 py-3 backdrop-blur-xl lg:hidden">
+        <a href="index.html" class="flex items-center gap-2 font-display text-base font-semibold text-white">
+          <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-electric-500/15 ring-1 ring-electric-500/30">
+            <i data-lucide="bot" class="h-4 w-4 text-electric-400" aria-hidden="true"></i>
           </span>
           Career-Ops
         </a>
-        <button type="button" id="logout-btn" class="inline-flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2 text-sm font-medium text-slate-300 transition-all duration-300 ease-in-out hover:border-electric-500/30 hover:bg-white/5 hover:text-white">
-          <i data-lucide="log-out" class="h-4 w-4"></i>
-          Log out
+        <button type="button" id="logout-btn-mobile" aria-label="Log out" class="flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+          <i data-lucide="log-out" class="h-5 w-5" aria-hidden="true"></i>
         </button>
-      </nav>
-    </header>
+      </header>
 
-    <main class="relative z-10 flex flex-1 items-center justify-center px-6 py-16" id="dashboard-content">
-      <div class="w-full max-w-md rounded-2xl border border-white/10 bg-slate-900/80 p-8 text-center backdrop-blur-sm">
-        <span class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-electric-500/15 ring-1 ring-electric-500/30">
-          <i data-lucide="user" class="h-7 w-7 text-electric-400"></i>
-        </span>
-        <h1 class="font-display text-2xl font-bold text-white">Welcome back</h1>
-        <p id="dashboard-email" class="mt-2 text-sm text-slate-400">Loading…</p>
-      </div>
-    </main>
+      <main id="main-content" class="flex-1 px-4 py-8 sm:px-6 lg:px-10">
+        <div class="mx-auto max-w-6xl">
+          <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h1 class="font-display text-2xl font-bold text-white sm:text-3xl">Welcome back</h1>
+              <p id="dashboard-email" class="mt-1 text-sm text-slate-400">Loading…</p>
+            </div>
+            <a href="#" class="inline-flex h-11 items-center gap-2 rounded-xl bg-electric-500 px-5 text-sm font-semibold text-white shadow-glow transition-all duration-200 ease-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.55)]">
+              <i data-lucide="plus" class="h-4 w-4" aria-hidden="true"></i>
+              Evaluate new offer
+            </a>
+          </div>
+
+          <!-- Stats -->
+          <section aria-label="Pipeline summary" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-sm text-slate-400">Total applications</p>
+                <i data-lucide="briefcase" class="h-4 w-4 text-slate-500" aria-hidden="true"></i>
+              </div>
+              <p class="mt-2 font-display text-3xl font-bold text-white" data-stat="total">—</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-sm text-slate-400">In progress</p>
+                <i data-lucide="loader-circle" class="h-4 w-4 text-electric-400" aria-hidden="true"></i>
+              </div>
+              <p class="mt-2 font-display text-3xl font-bold text-white" data-stat="in-progress">—</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-sm text-slate-400">Interviews</p>
+                <i data-lucide="users" class="h-4 w-4 text-amber-400" aria-hidden="true"></i>
+              </div>
+              <p class="mt-2 font-display text-3xl font-bold text-white" data-stat="interviews">—</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-sm text-slate-400">Offers</p>
+                <i data-lucide="party-popper" class="h-4 w-4 text-emerald-400" aria-hidden="true"></i>
+              </div>
+              <p class="mt-2 font-display text-3xl font-bold text-white" data-stat="offers">—</p>
+            </div>
+          </section>
+
+          <!-- Recent applications -->
+          <section id="applications" aria-label="Recent applications" class="mt-8 rounded-2xl border border-white/10 bg-slate-900/60">
+            <div class="flex items-center justify-between border-b border-white/5 px-5 py-4">
+              <h2 class="font-display text-base font-semibold text-white">Recent applications</h2>
+              <a href="#" class="text-sm font-medium text-electric-400 transition-colors duration-200 hover:text-electric-glow">View all</a>
+            </div>
+
+            <div id="applications-empty" class="hidden flex-col items-center gap-3 px-5 py-12 text-center">
+              <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5">
+                <i data-lucide="inbox" class="h-6 w-6 text-slate-500" aria-hidden="true"></i>
+              </span>
+              <p class="text-sm font-medium text-white">No applications yet</p>
+              <p class="max-w-sm text-sm text-slate-400">Paste a job URL or description into the evaluator and it'll show up here once scored.</p>
+            </div>
+
+            <div id="applications-table-wrap" class="overflow-x-auto">
+              <table class="w-full text-left text-sm">
+                <caption class="sr-only">Recent job applications with company, role, score, and status</caption>
+                <thead>
+                  <tr class="border-b border-white/5 text-xs uppercase tracking-wide text-slate-500">
+                    <th scope="col" class="px-5 py-3 font-medium">Company</th>
+                    <th scope="col" class="px-5 py-3 font-medium">Role</th>
+                    <th scope="col" class="px-5 py-3 font-medium">Score</th>
+                    <th scope="col" class="px-5 py-3 font-medium">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="applications-tbody" class="divide-y divide-white/5"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
   </div>
 
   <script>
@@ -66,16 +185,81 @@
   </script>
   <script type="module">
     import { requireAuth, signOut } from './assets/authState.js';
+    import { getJobPreferences } from './assets/jobPreferences.js';
 
     const session = await requireAuth('login.html');
-    if (session) {
-      document.getElementById('dashboard-email').textContent = session.user.email;
+    document.getElementById('dashboard-email').textContent = session.user.email;
+    document.getElementById('sidebar-email').textContent = session.user.email;
+
+    try {
+      const preferences = await getJobPreferences(session.user.id);
+      if (!preferences) {
+        window.location.href = 'onboarding.html';
+      }
+    } catch (err) {
+      console.error('Failed to load job preferences:', err);
     }
 
-    document.getElementById('logout-btn').addEventListener('click', async () => {
+    async function logout() {
       await signOut();
       window.location.href = 'login.html';
-    });
+    }
+    document.getElementById('logout-btn').addEventListener('click', logout);
+    document.getElementById('logout-btn-mobile').addEventListener('click', logout);
+
+    // Placeholder pipeline data — wire to data/applications.md or a Supabase
+    // table once the tracker is exposed to this dashboard.
+    const sampleApplications = [];
+
+    const statusStyles = {
+      Evaluated: 'bg-slate-500/15 text-slate-300 ring-1 ring-slate-500/30',
+      Applied: 'bg-electric-500/15 text-electric-400 ring-1 ring-electric-500/30',
+      Interview: 'bg-amber-500/15 text-amber-400 ring-1 ring-amber-500/30',
+      Offer: 'bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/30',
+      Rejected: 'bg-red-500/15 text-red-400 ring-1 ring-red-500/30',
+    };
+
+    function renderStats(apps) {
+      const inProgress = apps.filter((a) => ['Applied', 'Responded'].includes(a.status)).length;
+      const interviews = apps.filter((a) => a.status === 'Interview').length;
+      const offers = apps.filter((a) => a.status === 'Offer').length;
+      document.querySelector('[data-stat="total"]').textContent = apps.length;
+      document.querySelector('[data-stat="in-progress"]').textContent = inProgress;
+      document.querySelector('[data-stat="interviews"]').textContent = interviews;
+      document.querySelector('[data-stat="offers"]').textContent = offers;
+    }
+
+    function renderTable(apps) {
+      const tbody = document.getElementById('applications-tbody');
+      const emptyState = document.getElementById('applications-empty');
+      const tableWrap = document.getElementById('applications-table-wrap');
+
+      if (apps.length === 0) {
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+        tableWrap.classList.add('hidden');
+        return;
+      }
+
+      tbody.innerHTML = apps
+        .map(
+          (app) => `
+        <tr class="transition-colors duration-150 hover:bg-white/[0.02]">
+          <td class="px-5 py-3.5 font-medium text-white">${app.company}</td>
+          <td class="px-5 py-3.5 text-slate-400">${app.role}</td>
+          <td class="px-5 py-3.5 text-slate-300">${app.score}/5</td>
+          <td class="px-5 py-3.5">
+            <span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${statusStyles[app.status] || statusStyles.Evaluated}">
+              ${app.status}
+            </span>
+          </td>
+        </tr>`
+        )
+        .join('');
+    }
+
+    renderStats(sampleApplications);
+    renderTable(sampleApplications);
   </script>
 </body>
 </html>

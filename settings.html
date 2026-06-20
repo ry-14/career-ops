@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Edit your Career-Ops job search preferences." />
+  <title>Settings — Career-Ops</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slate: { 950: '#0a0f1a', 900: '#0f1729' },
+            electric: { 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', glow: '#22d3ee' },
+          },
+          fontFamily: {
+            display: ['"Instrument Sans"', 'system-ui', 'sans-serif'],
+            body: ['"DM Sans"', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: { glow: '0 0 40px -8px rgba(14, 165, 233, 0.45)' },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    body { font-family: 'DM Sans', system-ui, sans-serif; }
+    h1, h2, .font-display { font-family: 'Instrument Sans', system-ui, sans-serif; }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-300 antialiased">
+
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-lg focus:bg-electric-500 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white">
+    Skip to main content
+  </a>
+
+  <div class="flex min-h-screen">
+    <aside class="hidden w-64 flex-col border-r border-white/5 bg-slate-900/40 px-4 py-6 lg:flex">
+      <a href="index.html" class="mb-8 flex items-center gap-2.5 px-2 font-display text-lg font-semibold tracking-tight text-white">
+        <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-electric-500/15 ring-1 ring-electric-500/30">
+          <i data-lucide="bot" class="h-4 w-4 text-electric-400" aria-hidden="true"></i>
+        </span>
+        Career-Ops
+      </a>
+
+      <nav aria-label="Primary" class="flex flex-1 flex-col gap-1">
+        <a href="dashboard.html" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+          <i data-lucide="layout-dashboard" class="h-4 w-4" aria-hidden="true"></i>
+          Dashboard
+        </a>
+        <a href="dashboard.html#applications" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+          <i data-lucide="briefcase" class="h-4 w-4" aria-hidden="true"></i>
+          Applications
+        </a>
+        <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+          <i data-lucide="search" class="h-4 w-4" aria-hidden="true"></i>
+          Scan portals
+        </a>
+        <a href="settings.html" aria-current="page" class="flex items-center gap-3 rounded-lg bg-electric-500/10 px-3 py-2.5 text-sm font-medium text-electric-400 ring-1 ring-electric-500/20">
+          <i data-lucide="settings" class="h-4 w-4" aria-hidden="true"></i>
+          Settings
+        </a>
+      </nav>
+
+      <div class="mt-auto border-t border-white/5 pt-4">
+        <div class="flex items-center gap-3 rounded-lg px-2 py-2">
+          <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-electric-500/15 ring-1 ring-electric-500/30">
+            <i data-lucide="user" class="h-4 w-4 text-electric-400" aria-hidden="true"></i>
+          </span>
+          <div class="min-w-0 flex-1">
+            <p id="sidebar-email" class="truncate text-sm font-medium text-white">Loading…</p>
+          </div>
+        </div>
+        <button type="button" id="logout-btn" class="mt-2 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-red-500/10 hover:text-red-400">
+          <i data-lucide="log-out" class="h-4 w-4" aria-hidden="true"></i>
+          Log out
+        </button>
+      </div>
+    </aside>
+
+    <div class="flex flex-1 flex-col">
+      <header class="flex items-center justify-between border-b border-white/5 bg-slate-950/80 px-4 py-3 backdrop-blur-xl lg:hidden">
+        <a href="dashboard.html" class="flex items-center gap-2 font-display text-base font-semibold text-white">
+          <i data-lucide="arrow-left" class="h-4 w-4 text-slate-400" aria-hidden="true"></i>
+          Back
+        </a>
+        <button type="button" id="logout-btn-mobile" aria-label="Log out" class="flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+          <i data-lucide="log-out" class="h-5 w-5" aria-hidden="true"></i>
+        </button>
+      </header>
+
+      <main id="main-content" class="flex-1 px-4 py-8 sm:px-6 lg:px-10">
+        <div class="mx-auto max-w-2xl">
+          <h1 class="font-display text-2xl font-bold text-white sm:text-3xl">Job search preferences</h1>
+          <p class="mt-1 text-sm text-slate-400">Used to match and filter the roles we surface for you.</p>
+
+          <div class="mt-6 rounded-2xl border border-white/10 bg-slate-900/60 p-6 sm:p-8">
+            <p id="form-error" class="mb-4 hidden rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-400"></p>
+            <p id="form-success" class="mb-4 hidden rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-400"></p>
+
+            <form id="settings-form" class="space-y-6">
+              <div>
+                <label for="titles-input" class="block text-sm font-medium text-slate-300">Target job titles</label>
+                <div id="titles-input" class="mt-2"></div>
+              </div>
+
+              <div>
+                <label for="industries-input" class="block text-sm font-medium text-slate-300">Preferred industries</label>
+                <div id="industries-input" class="mt-2"></div>
+              </div>
+
+              <div>
+                <label for="locations-input" class="block text-sm font-medium text-slate-300">Preferred locations</label>
+                <div id="locations-input" class="mt-2"></div>
+              </div>
+
+              <div>
+                <span class="block text-sm font-medium text-slate-300">Work mode</span>
+                <div id="work-mode-options" class="mt-2 grid grid-cols-2 gap-3 sm:grid-cols-4"></div>
+              </div>
+
+              <div>
+                <span class="block text-sm font-medium text-slate-300">Experience level</span>
+                <div id="experience-level-options" class="mt-2 grid grid-cols-2 gap-3"></div>
+              </div>
+
+              <div>
+                <label for="skills-input" class="block text-sm font-medium text-slate-300">Skills</label>
+                <div id="skills-input" class="mt-2"></div>
+              </div>
+
+              <div class="flex justify-end pt-2">
+                <button type="submit" id="save-btn" class="flex h-11 items-center gap-2 rounded-xl bg-electric-500 px-6 text-sm font-semibold text-white shadow-glow transition-all duration-200 ease-in-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.55)] disabled:cursor-not-allowed disabled:opacity-60">
+                  <i data-lucide="check" class="h-4 w-4" aria-hidden="true"></i>
+                  <span id="save-btn-label">Save changes</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+  <script type="module">
+    import { requireAuth, signOut } from './assets/authState.js';
+    import { getJobPreferences, saveJobPreferences } from './assets/jobPreferences.js';
+    import { createTagInput } from './assets/tagInput.js';
+
+    const session = await requireAuth('login.html');
+    const userId = session.user.id;
+    document.getElementById('sidebar-email').textContent = session.user.email;
+
+    async function logout() {
+      await signOut();
+      window.location.href = 'login.html';
+    }
+    document.getElementById('logout-btn').addEventListener('click', logout);
+    document.getElementById('logout-btn-mobile').addEventListener('click', logout);
+
+    const titlesInput = createTagInput(document.getElementById('titles-input'), { placeholder: 'e.g. Software Engineer' });
+    const industriesInput = createTagInput(document.getElementById('industries-input'), { placeholder: 'e.g. Fintech' });
+    const locationsInput = createTagInput(document.getElementById('locations-input'), { placeholder: 'e.g. Remote' });
+    const skillsInput = createTagInput(document.getElementById('skills-input'), { placeholder: 'e.g. Python' });
+
+    function buildRadioGroup(container, name, options, selected) {
+      container.innerHTML = '';
+      options.forEach(({ value, label, icon }) => {
+        const id = `${name}-${value}`;
+        const wrapper = document.createElement('label');
+        wrapper.setAttribute('for', id);
+        wrapper.className =
+          'flex cursor-pointer flex-col items-center gap-2 rounded-xl border border-white/10 bg-slate-950/60 px-3 py-4 text-center text-sm font-medium text-slate-300 transition-all duration-200 ease-in-out hover:border-electric-500/30 has-[:checked]:border-electric-500 has-[:checked]:bg-electric-500/10 has-[:checked]:text-electric-400';
+
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = name;
+        input.id = id;
+        input.value = value;
+        input.className = 'sr-only';
+        if (value === selected) input.checked = true;
+
+        const iconEl = document.createElement('i');
+        iconEl.setAttribute('data-lucide', icon);
+        iconEl.className = 'h-5 w-5';
+        iconEl.setAttribute('aria-hidden', 'true');
+
+        wrapper.appendChild(input);
+        wrapper.appendChild(iconEl);
+        wrapper.appendChild(document.createTextNode(label));
+        container.appendChild(wrapper);
+      });
+      lucide.createIcons();
+    }
+
+    const workModeOptions = [
+      { value: 'remote', label: 'Remote', icon: 'home' },
+      { value: 'hybrid', label: 'Hybrid', icon: 'shuffle' },
+      { value: 'on_site', label: 'On-site', icon: 'building-2' },
+      { value: 'any', label: 'Any', icon: 'sparkles' },
+    ];
+    const experienceLevelOptions = [
+      { value: 'student', label: 'Student', icon: 'graduation-cap' },
+      { value: 'intern', label: 'Intern', icon: 'backpack' },
+      { value: 'new_grad', label: 'New grad', icon: 'sprout' },
+      { value: 'experienced', label: 'Experienced', icon: 'briefcase' },
+    ];
+
+    let existing = null;
+    try {
+      existing = await getJobPreferences(userId);
+    } catch (err) {
+      console.error('Failed to load job preferences:', err);
+    }
+    titlesInput.setValues(existing?.target_job_titles || []);
+    industriesInput.setValues(existing?.preferred_industries || []);
+    locationsInput.setValues(existing?.preferred_locations || []);
+    skillsInput.setValues(existing?.skills || []);
+    buildRadioGroup(document.getElementById('work-mode-options'), 'work_mode', workModeOptions, existing?.work_mode || 'any');
+    buildRadioGroup(document.getElementById('experience-level-options'), 'experience_level', experienceLevelOptions, existing?.experience_level || null);
+
+    const form = document.getElementById('settings-form');
+    const errorEl = document.getElementById('form-error');
+    const successEl = document.getElementById('form-success');
+    const saveBtn = document.getElementById('save-btn');
+    const saveBtnLabel = document.getElementById('save-btn-label');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.classList.add('hidden');
+      successEl.classList.add('hidden');
+      saveBtn.disabled = true;
+      saveBtnLabel.textContent = 'Saving…';
+
+      try {
+        await saveJobPreferences(userId, {
+          target_job_titles: titlesInput.getValues(),
+          preferred_industries: industriesInput.getValues(),
+          preferred_locations: locationsInput.getValues(),
+          work_mode: form.querySelector('input[name="work_mode"]:checked')?.value || 'any',
+          experience_level: form.querySelector('input[name="experience_level"]:checked')?.value || null,
+          skills: skillsInput.getValues(),
+        });
+        successEl.textContent = 'Preferences saved.';
+        successEl.classList.remove('hidden');
+      } catch (err) {
+        errorEl.textContent = err.message || 'Could not save your preferences.';
+        errorEl.classList.remove('hidden');
+      } finally {
+        saveBtn.disabled = false;
+        saveBtnLabel.textContent = 'Save changes';
+      }
+    });
+  </script>
+</body>
+</html>

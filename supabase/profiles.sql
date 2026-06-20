@@ -11,6 +11,8 @@ create table if not exists public.profiles (
 
 alter table public.profiles enable row level security;
 
+grant select, insert, update on public.profiles to authenticated;
+
 create policy "Users can view their own profile"
   on public.profiles for select
   using (auth.uid() = id);
