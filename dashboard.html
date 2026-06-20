@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Your Career-Ops dashboard." />
+  <title>Dashboard — Career-Ops</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slate: { 950: '#0a0f1a', 900: '#0f1729' },
+            electric: { 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', glow: '#22d3ee' },
+          },
+          fontFamily: {
+            display: ['"Instrument Sans"', 'system-ui', 'sans-serif'],
+            body: ['"DM Sans"', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: { glow: '0 0 40px -8px rgba(14, 165, 233, 0.45)' },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    body { font-family: 'DM Sans', system-ui, sans-serif; }
+    h1, h2, .font-display { font-family: 'Instrument Sans', system-ui, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-300 antialiased">
+
+  <div class="relative flex min-h-screen flex-col">
+    <header class="relative z-10 border-b border-white/5 bg-slate-950/80 backdrop-blur-xl">
+      <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <a href="index.html" class="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight text-white transition-all duration-300 ease-in-out hover:opacity-90">
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-electric-500/15 ring-1 ring-electric-500/30">
+            <i data-lucide="bot" class="h-4 w-4 text-electric-400"></i>
+          </span>
+          Career-Ops
+        </a>
+        <button type="button" id="logout-btn" class="inline-flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2 text-sm font-medium text-slate-300 transition-all duration-300 ease-in-out hover:border-electric-500/30 hover:bg-white/5 hover:text-white">
+          <i data-lucide="log-out" class="h-4 w-4"></i>
+          Log out
+        </button>
+      </nav>
+    </header>
+
+    <main class="relative z-10 flex flex-1 items-center justify-center px-6 py-16" id="dashboard-content">
+      <div class="w-full max-w-md rounded-2xl border border-white/10 bg-slate-900/80 p-8 text-center backdrop-blur-sm">
+        <span class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-electric-500/15 ring-1 ring-electric-500/30">
+          <i data-lucide="user" class="h-7 w-7 text-electric-400"></i>
+        </span>
+        <h1 class="font-display text-2xl font-bold text-white">Welcome back</h1>
+        <p id="dashboard-email" class="mt-2 text-sm text-slate-400">Loading…</p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+  <script type="module">
+    import { requireAuth, signOut } from './assets/authState.js';
+
+    const session = await requireAuth('login.html');
+    if (session) {
+      document.getElementById('dashboard-email').textContent = session.user.email;
+    }
+
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      await signOut();
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>

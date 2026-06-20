@@ -93,9 +93,10 @@
               <input type="checkbox" name="remember" class="h-4 w-4 rounded border-white/20 bg-slate-950 text-electric-500 focus:ring-electric-500/30" />
               Remember me
             </label>
-            <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-electric-500 py-3.5 text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.55)]">
+            <p id="login-error" class="hidden rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-400"></p>
+            <button type="submit" id="login-submit-btn" class="flex w-full items-center justify-center gap-2 rounded-xl bg-electric-500 py-3.5 text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.55)] disabled:cursor-not-allowed disabled:opacity-60">
               <i data-lucide="log-in" class="h-4 w-4"></i>
-              Sign In
+              <span id="login-submit-label">Sign In</span>
             </button>
           </form>
 
@@ -124,9 +125,38 @@
 
   <script>
     lucide.createIcons();
-    document.getElementById('login-form').addEventListener('submit', (e) => {
+  </script>
+  <script type="module">
+    import { signInWithPassword, getSession } from './assets/authState.js';
+
+    getSession().then((session) => {
+      if (session) window.location.href = 'dashboard.html';
+    });
+
+    const form = document.getElementById('login-form');
+    const errorEl = document.getElementById('login-error');
+    const submitBtn = document.getElementById('login-submit-btn');
+    const submitLabel = document.getElementById('login-submit-label');
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      // Placeholder — wire to your auth backend
+      errorEl.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitLabel.textContent = 'Signing in…';
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        await signInWithPassword(email, password);
+        window.location.href = 'dashboard.html';
+      } catch (err) {
+        errorEl.textContent = err.message || 'Unable to sign in.';
+        errorEl.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        submitLabel.textContent = 'Sign In';
+      }
     });
   </script>
 </body>

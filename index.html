@@ -395,7 +395,9 @@
           <input type="checkbox" name="remember" class="h-4 w-4 rounded border-white/20 bg-slate-950 text-electric-500 focus:ring-electric-500/30" />
           Remember me
         </label>
-        <button type="submit" id="auth-submit-btn" class="flex w-full items-center justify-center gap-2 rounded-xl bg-electric-500 py-3.5 text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.55)]">
+        <p id="auth-error" class="hidden rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-400"></p>
+        <p id="auth-success" class="hidden rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-400"></p>
+        <button type="submit" id="auth-submit-btn" class="flex w-full items-center justify-center gap-2 rounded-xl bg-electric-500 py-3.5 text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.55)] disabled:cursor-not-allowed disabled:opacity-60">
           <i data-lucide="log-in" class="h-4 w-4"></i>
           <span id="auth-submit-label">Log In</span>
         </button>
@@ -438,7 +440,10 @@
     const authDivider = document.getElementById('auth-divider');
     const authGithubBtn = document.getElementById('auth-github-btn');
 
+    let currentAuthMode = 'login';
+
     function setAuthTab(mode) {
+      currentAuthMode = mode;
       const isLogin = mode === 'login';
       authTabLogin.classList.toggle('text-electric-400', isLogin);
       authTabLogin.classList.toggle('text-slate-500', !isLogin);
@@ -474,13 +479,56 @@
 
     document.getElementById('auth-modal-close').addEventListener('click', closeAuthModal);
     document.getElementById('auth-modal-backdrop').addEventListener('click', closeAuthModal);
-    document.getElementById('auth-form').addEventListener('submit', (e) => e.preventDefault());
 
     document.querySelectorAll('[data-open-auth-modal]').forEach((el) => {
       el.addEventListener('click', (e) => {
         e.preventDefault();
         openAuthModal(el.dataset.authTab || 'login');
       });
+    });
+
+    window.__getCurrentAuthMode = () => currentAuthMode;
+  </script>
+  <script type="module">
+    import { signInWithPassword, signUpWithPassword } from './assets/authState.js';
+
+    const form = document.getElementById('auth-form');
+    const errorEl = document.getElementById('auth-error');
+    const successEl = document.getElementById('auth-success');
+    const submitBtn = document.getElementById('auth-submit-btn');
+    const submitLabel = document.getElementById('auth-submit-label');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.classList.add('hidden');
+      successEl.classList.add('hidden');
+
+      const mode = window.__getCurrentAuthMode();
+      const email = document.getElementById('auth-email').value;
+      const password = document.getElementById('auth-password').value;
+      const name = document.getElementById('auth-name').value;
+
+      submitBtn.disabled = true;
+      const previousLabel = submitLabel.textContent;
+      submitLabel.textContent = mode === 'login' ? 'Signing in…' : 'Creating account…';
+
+      try {
+        if (mode === 'login') {
+          await signInWithPassword(email, password);
+          window.location.href = 'dashboard.html';
+        } else {
+          await signUpWithPassword(email, password, name);
+          successEl.textContent = 'Account created! Check your email to confirm, then log in.';
+          successEl.classList.remove('hidden');
+          form.reset();
+        }
+      } catch (err) {
+        errorEl.textContent = err.message || 'Something went wrong.';
+        errorEl.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        submitLabel.textContent = previousLabel;
+      }
     });
   </script>
 </body>
