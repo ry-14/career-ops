@@ -59,7 +59,7 @@
           <i data-lucide="briefcase" class="h-4 w-4" aria-hidden="true"></i>
           Applications
         </a>
-        <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+        <a href="scan.html" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
           <i data-lucide="search" class="h-4 w-4" aria-hidden="true"></i>
           Scan portals
         </a>
@@ -108,17 +108,17 @@
             <form id="settings-form" class="space-y-6">
               <div>
                 <label for="titles-input" class="block text-sm font-medium text-slate-300">Target job titles</label>
-                <div id="titles-input" class="mt-2"></div>
+                <div id="titles-input-wrap" class="mt-2"></div>
               </div>
 
               <div>
                 <label for="industries-input" class="block text-sm font-medium text-slate-300">Preferred industries</label>
-                <div id="industries-input" class="mt-2"></div>
+                <div id="industries-input-wrap" class="mt-2"></div>
               </div>
 
               <div>
                 <label for="locations-input" class="block text-sm font-medium text-slate-300">Preferred locations</label>
-                <div id="locations-input" class="mt-2"></div>
+                <div id="locations-input-wrap" class="mt-2"></div>
               </div>
 
               <div>
@@ -133,13 +133,78 @@
 
               <div>
                 <label for="skills-input" class="block text-sm font-medium text-slate-300">Skills</label>
-                <div id="skills-input" class="mt-2"></div>
+                <div id="skills-input-wrap" class="mt-2"></div>
+              </div>
+
+              <div class="border-t border-white/5 pt-6">
+                <h2 class="font-display text-sm font-semibold text-white">Portfolio links</h2>
+                <div class="mt-3 space-y-3">
+                  <div>
+                    <label for="portfolio-url" class="block text-sm font-medium text-slate-300">Personal site / portfolio</label>
+                    <input type="url" id="portfolio-url" name="portfolio_url" autocomplete="url" placeholder="https://yoursite.com" class="mt-1.5 h-11 w-full rounded-lg border border-white/10 bg-slate-950/80 px-3 text-sm text-white outline-none focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+                  </div>
+                  <div>
+                    <label for="github-url" class="block text-sm font-medium text-slate-300">GitHub</label>
+                    <input type="url" id="github-url" name="github_url" autocomplete="url" placeholder="https://github.com/yourname" class="mt-1.5 h-11 w-full rounded-lg border border-white/10 bg-slate-950/80 px-3 text-sm text-white outline-none focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+                  </div>
+                  <div>
+                    <label for="linkedin-url" class="block text-sm font-medium text-slate-300">LinkedIn</label>
+                    <input type="url" id="linkedin-url" name="linkedin_url" autocomplete="url" placeholder="https://linkedin.com/in/yourname" class="mt-1.5 h-11 w-full rounded-lg border border-white/10 bg-slate-950/80 px-3 text-sm text-white outline-none focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+                  </div>
+                </div>
               </div>
 
               <div class="flex justify-end pt-2">
                 <button type="submit" id="save-btn" class="flex h-11 items-center gap-2 rounded-xl bg-electric-500 px-6 text-sm font-semibold text-white shadow-glow transition-all duration-200 ease-in-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.55)] disabled:cursor-not-allowed disabled:opacity-60">
                   <i data-lucide="check" class="h-4 w-4" aria-hidden="true"></i>
                   <span id="save-btn-label">Save changes</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Resume upload -->
+          <div class="mt-6 rounded-2xl border border-white/10 bg-slate-900/60 p-6 sm:p-8">
+            <h2 class="font-display text-base font-semibold text-white">Resume / CV</h2>
+            <p class="mt-1 text-sm text-slate-400">PDF preferred. Used as context for future evaluations.</p>
+            <p id="resume-error" class="mt-3 hidden rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-400"></p>
+            <div class="mt-4 flex flex-wrap items-center gap-3">
+              <a id="resume-current-link" href="#" target="_blank" rel="noopener noreferrer" class="hidden text-sm font-medium text-electric-400 hover:text-electric-glow">
+                View current resume
+              </a>
+              <label for="resume-file" class="flex h-11 cursor-pointer items-center gap-2 rounded-xl border border-white/10 px-5 text-sm font-semibold text-slate-300 transition-all duration-200 ease-in-out hover:bg-white/5 hover:text-white">
+                <i data-lucide="upload" class="h-4 w-4" aria-hidden="true"></i>
+                <span id="resume-upload-label">Upload resume</span>
+              </label>
+              <input type="file" id="resume-file" accept="application/pdf" class="sr-only" />
+            </div>
+          </div>
+
+          <!-- Portfolio projects -->
+          <div class="mt-6 rounded-2xl border border-white/10 bg-slate-900/60 p-6 sm:p-8">
+            <h2 class="font-display text-base font-semibold text-white">Projects &amp; case studies</h2>
+            <p class="mt-1 text-sm text-slate-400">Specific proof points you'd lead with in an interview.</p>
+            <p id="project-error" class="mt-3 hidden rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-400"></p>
+
+            <ul id="project-list" class="mt-4 space-y-3"></ul>
+
+            <form id="project-form" class="mt-4 space-y-3 border-t border-white/5 pt-4">
+              <div>
+                <label for="project-title" class="block text-sm font-medium text-slate-300">Title</label>
+                <input type="text" id="project-title" name="title" required class="mt-1.5 h-11 w-full rounded-lg border border-white/10 bg-slate-950/80 px-3 text-sm text-white outline-none focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+              </div>
+              <div>
+                <label for="project-description" class="block text-sm font-medium text-slate-300">Description</label>
+                <textarea id="project-description" name="description" rows="2" class="mt-1.5 w-full rounded-lg border border-white/10 bg-slate-950/80 px-3 py-2 text-sm text-white outline-none focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20"></textarea>
+              </div>
+              <div>
+                <label for="project-url" class="block text-sm font-medium text-slate-300">Link</label>
+                <input type="url" id="project-url" name="url" autocomplete="url" placeholder="https://..." class="mt-1.5 h-11 w-full rounded-lg border border-white/10 bg-slate-950/80 px-3 text-sm text-white outline-none focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+              </div>
+              <div class="flex justify-end">
+                <button type="submit" id="project-submit" class="flex h-11 items-center gap-2 rounded-xl border border-white/10 px-5 text-sm font-semibold text-slate-300 transition-all duration-200 ease-in-out hover:bg-white/5 hover:text-white disabled:cursor-not-allowed disabled:opacity-60">
+                  <i data-lucide="plus" class="h-4 w-4" aria-hidden="true"></i>
+                  Add project
                 </button>
               </div>
             </form>
@@ -156,6 +221,13 @@
     import { requireAuth, signOut } from './assets/authState.js';
     import { getJobPreferences, saveJobPreferences } from './assets/jobPreferences.js';
     import { createTagInput } from './assets/tagInput.js';
+    import {
+      uploadResume,
+      getResumeSignedUrl,
+      getPortfolioProjects,
+      addPortfolioProject,
+      deletePortfolioProject,
+    } from './assets/portfolio.js';
 
     const session = await requireAuth('login.html');
     const userId = session.user.id;
@@ -168,10 +240,10 @@
     document.getElementById('logout-btn').addEventListener('click', logout);
     document.getElementById('logout-btn-mobile').addEventListener('click', logout);
 
-    const titlesInput = createTagInput(document.getElementById('titles-input'), { placeholder: 'e.g. Software Engineer' });
-    const industriesInput = createTagInput(document.getElementById('industries-input'), { placeholder: 'e.g. Fintech' });
-    const locationsInput = createTagInput(document.getElementById('locations-input'), { placeholder: 'e.g. Remote' });
-    const skillsInput = createTagInput(document.getElementById('skills-input'), { placeholder: 'e.g. Python' });
+    const titlesInput = createTagInput(document.getElementById('titles-input-wrap'), { placeholder: 'e.g. Software Engineer', id: 'titles-input', name: 'titles' });
+    const industriesInput = createTagInput(document.getElementById('industries-input-wrap'), { placeholder: 'e.g. Fintech', id: 'industries-input', name: 'industries' });
+    const locationsInput = createTagInput(document.getElementById('locations-input-wrap'), { placeholder: 'e.g. Remote', id: 'locations-input', name: 'locations' });
+    const skillsInput = createTagInput(document.getElementById('skills-input-wrap'), { placeholder: 'e.g. Python', id: 'skills-input', name: 'skills' });
 
     function buildRadioGroup(container, name, options, selected) {
       container.innerHTML = '';
@@ -228,6 +300,19 @@
     skillsInput.setValues(existing?.skills || []);
     buildRadioGroup(document.getElementById('work-mode-options'), 'work_mode', workModeOptions, existing?.work_mode || 'any');
     buildRadioGroup(document.getElementById('experience-level-options'), 'experience_level', experienceLevelOptions, existing?.experience_level || null);
+    document.getElementById('portfolio-url').value = existing?.portfolio_url || '';
+    document.getElementById('github-url').value = existing?.github_url || '';
+    document.getElementById('linkedin-url').value = existing?.linkedin_url || '';
+
+    const resumeLink = document.getElementById('resume-current-link');
+    if (existing?.resume_url) {
+      try {
+        resumeLink.href = await getResumeSignedUrl(existing.resume_url);
+        resumeLink.classList.remove('hidden');
+      } catch (err) {
+        console.error('Failed to load resume link:', err);
+      }
+    }
 
     const form = document.getElementById('settings-form');
     const errorEl = document.getElementById('form-error');
@@ -250,6 +335,9 @@
           work_mode: form.querySelector('input[name="work_mode"]:checked')?.value || 'any',
           experience_level: form.querySelector('input[name="experience_level"]:checked')?.value || null,
           skills: skillsInput.getValues(),
+          portfolio_url: document.getElementById('portfolio-url').value.trim() || null,
+          github_url: document.getElementById('github-url').value.trim() || null,
+          linkedin_url: document.getElementById('linkedin-url').value.trim() || null,
         });
         successEl.textContent = 'Preferences saved.';
         successEl.classList.remove('hidden');
@@ -259,6 +347,126 @@
       } finally {
         saveBtn.disabled = false;
         saveBtnLabel.textContent = 'Save changes';
+      }
+    });
+
+    // Resume upload
+    const resumeFileInput = document.getElementById('resume-file');
+    const resumeUploadLabel = document.getElementById('resume-upload-label');
+    const resumeError = document.getElementById('resume-error');
+
+    resumeFileInput.addEventListener('change', async () => {
+      const file = resumeFileInput.files?.[0];
+      if (!file) return;
+      resumeError.classList.add('hidden');
+      resumeUploadLabel.textContent = 'Uploading…';
+      try {
+        const path = await uploadResume(userId, file);
+        resumeLink.href = await getResumeSignedUrl(path);
+        resumeLink.classList.remove('hidden');
+      } catch (err) {
+        resumeError.textContent = err.message || 'Could not upload resume.';
+        resumeError.classList.remove('hidden');
+      } finally {
+        resumeUploadLabel.textContent = 'Upload resume';
+        resumeFileInput.value = '';
+      }
+    });
+
+    // Portfolio projects
+    const projectList = document.getElementById('project-list');
+    const projectForm = document.getElementById('project-form');
+    const projectError = document.getElementById('project-error');
+    const projectSubmit = document.getElementById('project-submit');
+
+    function renderProjects(projects) {
+      if (!projects.length) {
+        projectList.innerHTML = '<li class="text-sm text-slate-500">No projects added yet.</li>';
+        return;
+      }
+      projectList.innerHTML = '';
+      projects.forEach((project) => {
+        const li = document.createElement('li');
+        li.className = 'flex items-start justify-between gap-3 rounded-lg border border-white/5 bg-slate-950/60 p-3';
+
+        const info = document.createElement('div');
+        info.className = 'min-w-0';
+        const titleEl = document.createElement('p');
+        titleEl.className = 'text-sm font-medium text-white';
+        titleEl.textContent = project.title;
+        info.appendChild(titleEl);
+        if (project.description) {
+          const descEl = document.createElement('p');
+          descEl.className = 'mt-0.5 text-sm text-slate-400';
+          descEl.textContent = project.description;
+          info.appendChild(descEl);
+        }
+        if (project.url) {
+          const linkEl = document.createElement('a');
+          linkEl.href = project.url;
+          linkEl.target = '_blank';
+          linkEl.rel = 'noopener noreferrer';
+          linkEl.className = 'mt-0.5 inline-block text-sm font-medium text-electric-400 hover:text-electric-glow';
+          linkEl.textContent = project.url;
+          info.appendChild(linkEl);
+        }
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.setAttribute('aria-label', `Remove ${project.title}`);
+        removeBtn.className = 'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors duration-200 hover:bg-red-500/10 hover:text-red-400';
+        removeBtn.innerHTML = '<i data-lucide="trash-2" class="h-4 w-4" aria-hidden="true"></i>';
+        removeBtn.addEventListener('click', async () => {
+          try {
+            await deletePortfolioProject(project.id);
+            await loadProjects();
+          } catch (err) {
+            projectError.textContent = err.message || 'Could not remove project.';
+            projectError.classList.remove('hidden');
+          }
+        });
+
+        li.appendChild(info);
+        li.appendChild(removeBtn);
+        projectList.appendChild(li);
+      });
+      lucide.createIcons();
+    }
+
+    async function loadProjects() {
+      try {
+        const projects = await getPortfolioProjects(userId);
+        renderProjects(projects);
+      } catch (err) {
+        projectError.textContent = err.message || 'Could not load projects.';
+        projectError.classList.remove('hidden');
+      }
+    }
+
+    await loadProjects();
+
+    projectForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      projectError.classList.add('hidden');
+      projectSubmit.disabled = true;
+
+      const title = document.getElementById('project-title').value.trim();
+      const description = document.getElementById('project-description').value.trim();
+      const url = document.getElementById('project-url').value.trim();
+
+      try {
+        await addPortfolioProject(userId, {
+          title,
+          description: description || null,
+          url: url || null,
+        });
+        projectForm.reset();
+        await loadProjects();
+      } catch (err) {
+        projectError.textContent = err.message || 'Could not add project.';
+        projectError.classList.remove('hidden');
+      } finally {
+        projectSubmit.disabled = false;
       }
     });
   </script>

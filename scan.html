@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Scan for new job openings matching your preferences." />
+  <title>Scan portals — Career-Ops</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slate: { 950: '#0a0f1a', 900: '#0f1729' },
+            electric: { 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', glow: '#22d3ee' },
+          },
+          fontFamily: {
+            display: ['"Instrument Sans"', 'system-ui', 'sans-serif'],
+            body: ['"DM Sans"', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: { glow: '0 0 40px -8px rgba(14, 165, 233, 0.45)' },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    body { font-family: 'DM Sans', system-ui, sans-serif; }
+    h1, h2, .font-display { font-family: 'Instrument Sans', system-ui, sans-serif; }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-300 antialiased">
+
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-lg focus:bg-electric-500 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white">
+    Skip to main content
+  </a>
+
+  <div class="flex min-h-screen">
+    <aside class="hidden w-64 flex-col border-r border-white/5 bg-slate-900/40 px-4 py-6 lg:flex">
+      <a href="index.html" class="mb-8 flex items-center gap-2.5 px-2 font-display text-lg font-semibold tracking-tight text-white">
+        <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-electric-500/15 ring-1 ring-electric-500/30">
+          <i data-lucide="bot" class="h-4 w-4 text-electric-400" aria-hidden="true"></i>
+        </span>
+        Career-Ops
+      </a>
+
+      <nav aria-label="Primary" class="flex flex-1 flex-col gap-1">
+        <a href="dashboard.html" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+          <i data-lucide="layout-dashboard" class="h-4 w-4" aria-hidden="true"></i>
+          Dashboard
+        </a>
+        <a href="dashboard.html#applications" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+          <i data-lucide="briefcase" class="h-4 w-4" aria-hidden="true"></i>
+          Applications
+        </a>
+        <a href="scan.html" aria-current="page" class="flex items-center gap-3 rounded-lg bg-electric-500/10 px-3 py-2.5 text-sm font-medium text-electric-400 ring-1 ring-electric-500/20">
+          <i data-lucide="search" class="h-4 w-4" aria-hidden="true"></i>
+          Scan portals
+        </a>
+        <a href="settings.html" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+          <i data-lucide="settings" class="h-4 w-4" aria-hidden="true"></i>
+          Settings
+        </a>
+      </nav>
+
+      <div class="mt-auto border-t border-white/5 pt-4">
+        <div class="flex items-center gap-3 rounded-lg px-2 py-2">
+          <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-electric-500/15 ring-1 ring-electric-500/30">
+            <i data-lucide="user" class="h-4 w-4 text-electric-400" aria-hidden="true"></i>
+          </span>
+          <div class="min-w-0 flex-1">
+            <p id="sidebar-email" class="truncate text-sm font-medium text-white">Loading…</p>
+          </div>
+        </div>
+        <button type="button" id="logout-btn" class="mt-2 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-red-500/10 hover:text-red-400">
+          <i data-lucide="log-out" class="h-4 w-4" aria-hidden="true"></i>
+          Log out
+        </button>
+      </div>
+    </aside>
+
+    <div class="flex flex-1 flex-col">
+      <header class="flex items-center justify-between border-b border-white/5 bg-slate-950/80 px-4 py-3 backdrop-blur-xl lg:hidden">
+        <a href="dashboard.html" class="flex items-center gap-2 font-display text-base font-semibold text-white">
+          <i data-lucide="arrow-left" class="h-4 w-4 text-slate-400" aria-hidden="true"></i>
+          Back
+        </a>
+        <button type="button" id="logout-btn-mobile" aria-label="Log out" class="flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+          <i data-lucide="log-out" class="h-5 w-5" aria-hidden="true"></i>
+        </button>
+      </header>
+
+      <main id="main-content" class="flex-1 px-4 py-8 sm:px-6 lg:px-10">
+        <div class="mx-auto max-w-4xl">
+          <h1 class="font-display text-2xl font-bold text-white sm:text-3xl">Scan portals</h1>
+          <p class="mt-1 text-sm text-slate-400">Searches live openings based on your saved job preferences.</p>
+
+          <form id="search-form" class="mt-6 flex flex-wrap items-end gap-3 rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+            <div class="min-w-[180px] flex-1">
+              <label for="search-what" class="block text-sm font-medium text-slate-300">Job title</label>
+              <input type="text" id="search-what" autocomplete="off" placeholder="e.g. Software Engineer" class="mt-1.5 h-11 w-full rounded-lg border border-white/10 bg-slate-950/80 px-3 text-sm text-white outline-none focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+            </div>
+            <div class="min-w-[160px] flex-1">
+              <label for="search-where" class="block text-sm font-medium text-slate-300">Location</label>
+              <input type="text" id="search-where" autocomplete="off" placeholder="e.g. Remote" class="mt-1.5 h-11 w-full rounded-lg border border-white/10 bg-slate-950/80 px-3 text-sm text-white outline-none focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+            </div>
+            <button type="submit" id="search-submit" class="flex h-11 items-center gap-2 rounded-xl bg-electric-500 px-6 text-sm font-semibold text-white shadow-glow transition-all duration-200 ease-in-out hover:bg-electric-600 disabled:cursor-not-allowed disabled:opacity-60">
+              <i data-lucide="search" class="h-4 w-4" aria-hidden="true"></i>
+              <span id="search-submit-label">Search</span>
+            </button>
+          </form>
+
+          <p id="search-error" class="mt-4 hidden rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-400"></p>
+          <p id="evaluate-feedback" class="mt-4 hidden rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-400"></p>
+
+          <div id="results-empty" class="mt-8 flex flex-col items-center gap-3 rounded-2xl border border-white/10 bg-slate-900/60 px-5 py-12 text-center">
+            <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5">
+              <i data-lucide="search" class="h-6 w-6 text-slate-500" aria-hidden="true"></i>
+            </span>
+            <p class="text-sm font-medium text-white">No results yet</p>
+            <p class="max-w-sm text-sm text-slate-400">Run a search above — it defaults to your first saved target title and location from Settings.</p>
+          </div>
+
+          <ul id="results-list" class="mt-8 hidden space-y-3"></ul>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+  <script type="module">
+    import { requireAuth, signOut } from './assets/authState.js';
+    import { supabase } from './assets/supabaseClient.js';
+
+    const session = await requireAuth('login.html');
+    document.getElementById('sidebar-email').textContent = session.user.email;
+
+    async function logout() {
+      await signOut();
+      window.location.href = 'login.html';
+    }
+    document.getElementById('logout-btn').addEventListener('click', logout);
+    document.getElementById('logout-btn-mobile').addEventListener('click', logout);
+
+    const searchForm = document.getElementById('search-form');
+    const searchSubmit = document.getElementById('search-submit');
+    const searchSubmitLabel = document.getElementById('search-submit-label');
+    const searchError = document.getElementById('search-error');
+    const evaluateFeedback = document.getElementById('evaluate-feedback');
+    const resultsEmpty = document.getElementById('results-empty');
+    const resultsList = document.getElementById('results-list');
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str ?? '';
+      return div.innerHTML;
+    }
+
+    function isSafeUrl(url) {
+      return typeof url === 'string' && /^https?:\/\//i.test(url);
+    }
+
+    function renderResults(results) {
+      if (!results.length) {
+        resultsEmpty.classList.remove('hidden');
+        resultsList.classList.add('hidden');
+        resultsList.innerHTML = '';
+        return;
+      }
+      resultsEmpty.classList.add('hidden');
+      resultsList.classList.remove('hidden');
+      resultsList.innerHTML = '';
+
+      results.forEach((job, i) => {
+        const li = document.createElement('li');
+        li.className = 'rounded-2xl border border-white/10 bg-slate-900/60 p-5';
+        li.innerHTML = `
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div class="min-w-0">
+              <p class="font-medium text-white">${escapeHtml(job.title)}</p>
+              <p class="text-sm text-slate-400">${escapeHtml(job.company)} ${job.location ? `&middot; ${escapeHtml(job.location)}` : ''}</p>
+            </div>
+            <div class="flex shrink-0 items-center gap-2">
+              ${isSafeUrl(job.url) ? `<a href="${escapeHtml(job.url)}" target="_blank" rel="noopener noreferrer" class="flex h-9 items-center gap-1.5 rounded-lg border border-white/10 px-3 text-sm font-medium text-slate-300 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+                <i data-lucide="external-link" class="h-3.5 w-3.5" aria-hidden="true"></i>
+                View
+              </a>` : ''}
+              <button type="button" data-evaluate-index="${i}" class="flex h-9 items-center gap-1.5 rounded-lg bg-electric-500/15 px-3 text-sm font-medium text-electric-400 ring-1 ring-electric-500/30 transition-colors duration-200 hover:bg-electric-500/25 disabled:cursor-not-allowed disabled:opacity-60">
+                <i data-lucide="sparkles" class="h-3.5 w-3.5" aria-hidden="true"></i>
+                Evaluate this
+              </button>
+            </div>
+          </div>
+        `;
+        resultsList.appendChild(li);
+      });
+      lucide.createIcons();
+
+      resultsList.querySelectorAll('[data-evaluate-index]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const job = results[Number(btn.dataset.evaluateIndex)];
+          btn.disabled = true;
+          evaluateFeedback.classList.add('hidden');
+          searchError.classList.add('hidden');
+          try {
+            const { data, error } = await supabase.functions.invoke('evaluate-job', {
+              body: { company: job.company, role: job.title, jobText: job.description || job.title },
+            });
+            if (error) throw error;
+            if (data?.error) throw new Error(data.error);
+            evaluateFeedback.textContent = `Evaluated ${job.company} — ${job.title}: ${data.evaluation.score}/5. View it on the Dashboard.`;
+            evaluateFeedback.classList.remove('hidden');
+          } catch (err) {
+            searchError.textContent = err.message || 'Could not evaluate this listing.';
+            searchError.classList.remove('hidden');
+          } finally {
+            btn.disabled = false;
+          }
+        });
+      });
+    }
+
+    async function runSearch() {
+      searchError.classList.add('hidden');
+      evaluateFeedback.classList.add('hidden');
+      searchSubmit.disabled = true;
+      searchSubmitLabel.textContent = 'Searching…';
+
+      const what = document.getElementById('search-what').value.trim();
+      const where = document.getElementById('search-where').value.trim();
+
+      try {
+        const { data, error } = await supabase.functions.invoke('search-jobs', {
+          body: { what, where },
+        });
+        if (error) throw error;
+        if (data?.error) throw new Error(data.error);
+        renderResults(data.results || []);
+      } catch (err) {
+        searchError.textContent = err.message || 'Search failed.';
+        searchError.classList.remove('hidden');
+        renderResults([]);
+      } finally {
+        searchSubmit.disabled = false;
+        searchSubmitLabel.textContent = 'Search';
+      }
+    }
+
+    searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      runSearch();
+    });
+  </script>
+</body>
+</html>

@@ -60,7 +60,7 @@
           <i data-lucide="briefcase" class="h-4 w-4" aria-hidden="true"></i>
           Applications
         </a>
-        <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+        <a href="scan.html" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
           <i data-lucide="search" class="h-4 w-4" aria-hidden="true"></i>
           Scan portals
         </a>
@@ -107,10 +107,10 @@
               <h1 class="font-display text-2xl font-bold text-white sm:text-3xl">Welcome back</h1>
               <p id="dashboard-email" class="mt-1 text-sm text-slate-400">Loading…</p>
             </div>
-            <a href="#" class="inline-flex h-11 items-center gap-2 rounded-xl bg-electric-500 px-5 text-sm font-semibold text-white shadow-glow transition-all duration-200 ease-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.55)]">
+            <button type="button" id="evaluate-btn" class="inline-flex h-11 items-center gap-2 rounded-xl bg-electric-500 px-5 text-sm font-semibold text-white shadow-glow transition-all duration-200 ease-out hover:bg-electric-600 hover:shadow-[0_0_50px_-8px_rgba(14,165,233,0.55)]">
               <i data-lucide="plus" class="h-4 w-4" aria-hidden="true"></i>
               Evaluate new offer
-            </a>
+            </button>
           </div>
 
           <!-- Stats -->
@@ -149,7 +149,6 @@
           <section id="applications" aria-label="Recent applications" class="mt-8 rounded-2xl border border-white/10 bg-slate-900/60">
             <div class="flex items-center justify-between border-b border-white/5 px-5 py-4">
               <h2 class="font-display text-base font-semibold text-white">Recent applications</h2>
-              <a href="#" class="text-sm font-medium text-electric-400 transition-colors duration-200 hover:text-electric-glow">View all</a>
             </div>
 
             <div id="applications-empty" class="hidden flex-col items-center gap-3 px-5 py-12 text-center">
@@ -180,12 +179,52 @@
     </div>
   </div>
 
+  <!-- Evaluate new offer modal -->
+  <div id="evaluate-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 px-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="evaluate-modal-title">
+    <div class="w-full max-w-lg rounded-2xl border border-white/10 bg-slate-900 p-6 shadow-glow sm:p-8">
+      <div class="flex items-center justify-between">
+        <h2 id="evaluate-modal-title" class="font-display text-lg font-semibold text-white">Evaluate new offer</h2>
+        <button type="button" id="evaluate-modal-close" aria-label="Close" class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-white">
+          <i data-lucide="x" class="h-4 w-4" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <p id="evaluate-error" class="mt-4 hidden rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-400"></p>
+      <div id="evaluate-result" class="mt-4 hidden rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300"></div>
+
+      <form id="evaluate-form" class="mt-4 space-y-4">
+        <div>
+          <label for="evaluate-company" class="block text-sm font-medium text-slate-300">Company</label>
+          <input type="text" id="evaluate-company" name="company" autocomplete="organization" required class="mt-1.5 h-11 w-full rounded-lg border border-white/10 bg-slate-950/80 px-3 text-sm text-white outline-none focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+        </div>
+        <div>
+          <label for="evaluate-role" class="block text-sm font-medium text-slate-300">Role</label>
+          <input type="text" id="evaluate-role" name="role" autocomplete="off" required class="mt-1.5 h-11 w-full rounded-lg border border-white/10 bg-slate-950/80 px-3 text-sm text-white outline-none focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20" />
+        </div>
+        <div>
+          <label for="evaluate-jobtext" class="block text-sm font-medium text-slate-300">Job description</label>
+          <textarea id="evaluate-jobtext" name="jobText" autocomplete="off" required rows="6" class="mt-1.5 w-full rounded-lg border border-white/10 bg-slate-950/80 px-3 py-2 text-sm text-white outline-none focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20"></textarea>
+        </div>
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" id="evaluate-cancel" class="h-11 rounded-xl border border-white/10 px-5 text-sm font-semibold text-slate-300 transition-all duration-200 ease-in-out hover:bg-white/5 hover:text-white">
+            Cancel
+          </button>
+          <button type="submit" id="evaluate-submit" class="flex h-11 items-center gap-2 rounded-xl bg-electric-500 px-6 text-sm font-semibold text-white shadow-glow transition-all duration-200 ease-in-out hover:bg-electric-600 disabled:cursor-not-allowed disabled:opacity-60">
+            <span id="evaluate-submit-label">Evaluate</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
     lucide.createIcons();
   </script>
   <script type="module">
     import { requireAuth, signOut } from './assets/authState.js';
     import { getJobPreferences } from './assets/jobPreferences.js';
+    import { getApplications } from './assets/applications.js';
+    import { supabase } from './assets/supabaseClient.js';
 
     const session = await requireAuth('login.html');
     document.getElementById('dashboard-email').textContent = session.user.email;
@@ -206,10 +245,6 @@
     }
     document.getElementById('logout-btn').addEventListener('click', logout);
     document.getElementById('logout-btn-mobile').addEventListener('click', logout);
-
-    // Placeholder pipeline data — wire to data/applications.md or a Supabase
-    // table once the tracker is exposed to this dashboard.
-    const sampleApplications = [];
 
     const statusStyles = {
       Evaluated: 'bg-slate-500/15 text-slate-300 ring-1 ring-slate-500/30',
@@ -245,12 +280,12 @@
         .map(
           (app) => `
         <tr class="transition-colors duration-150 hover:bg-white/[0.02]">
-          <td class="px-5 py-3.5 font-medium text-white">${app.company}</td>
-          <td class="px-5 py-3.5 text-slate-400">${app.role}</td>
-          <td class="px-5 py-3.5 text-slate-300">${app.score}/5</td>
+          <td class="px-5 py-3.5 font-medium text-white">${escapeHtml(app.company)}</td>
+          <td class="px-5 py-3.5 text-slate-400">${escapeHtml(app.role)}</td>
+          <td class="px-5 py-3.5 text-slate-300">${app.score != null ? `${app.score}/5` : '—'}</td>
           <td class="px-5 py-3.5">
             <span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${statusStyles[app.status] || statusStyles.Evaluated}">
-              ${app.status}
+              ${escapeHtml(app.status)}
             </span>
           </td>
         </tr>`
@@ -258,8 +293,86 @@
         .join('');
     }
 
-    renderStats(sampleApplications);
-    renderTable(sampleApplications);
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str ?? '';
+      return div.innerHTML;
+    }
+
+    async function refreshApplications() {
+      try {
+        const apps = await getApplications(session.user.id);
+        renderStats(apps);
+        renderTable(apps);
+      } catch (err) {
+        console.error('Failed to load applications:', err);
+      }
+    }
+
+    await refreshApplications();
+
+    // Evaluate new offer modal
+    const evaluateModal = document.getElementById('evaluate-modal');
+    const evaluateForm = document.getElementById('evaluate-form');
+    const evaluateError = document.getElementById('evaluate-error');
+    const evaluateResult = document.getElementById('evaluate-result');
+    const evaluateSubmit = document.getElementById('evaluate-submit');
+    const evaluateSubmitLabel = document.getElementById('evaluate-submit-label');
+
+    function openEvaluateModal() {
+      evaluateModal.classList.remove('hidden');
+      evaluateModal.classList.add('flex');
+      evaluateError.classList.add('hidden');
+      evaluateResult.classList.add('hidden');
+      evaluateForm.reset();
+      document.getElementById('evaluate-company').focus();
+    }
+
+    function closeEvaluateModal() {
+      evaluateModal.classList.add('hidden');
+      evaluateModal.classList.remove('flex');
+    }
+
+    document.getElementById('evaluate-btn').addEventListener('click', openEvaluateModal);
+    document.getElementById('evaluate-modal-close').addEventListener('click', closeEvaluateModal);
+    document.getElementById('evaluate-cancel').addEventListener('click', closeEvaluateModal);
+    evaluateModal.addEventListener('click', (e) => {
+      if (e.target === evaluateModal) closeEvaluateModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !evaluateModal.classList.contains('hidden')) closeEvaluateModal();
+    });
+
+    evaluateForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      evaluateError.classList.add('hidden');
+      evaluateResult.classList.add('hidden');
+      evaluateSubmit.disabled = true;
+      evaluateSubmitLabel.textContent = 'Evaluating…';
+
+      const company = document.getElementById('evaluate-company').value.trim();
+      const role = document.getElementById('evaluate-role').value.trim();
+      const jobText = document.getElementById('evaluate-jobtext').value.trim();
+
+      try {
+        const { data, error } = await supabase.functions.invoke('evaluate-job', {
+          body: { company, role, jobText },
+        });
+        if (error) throw error;
+        if (data?.error) throw new Error(data.error);
+
+        evaluateResult.textContent = `Score: ${data.evaluation.score}/5 — ${data.evaluation.reasoning}`;
+        evaluateResult.classList.remove('hidden');
+        evaluateForm.reset();
+        await refreshApplications();
+      } catch (err) {
+        evaluateError.textContent = err.message || 'Could not evaluate this offer.';
+        evaluateError.classList.remove('hidden');
+      } finally {
+        evaluateSubmit.disabled = false;
+        evaluateSubmitLabel.textContent = 'Evaluate';
+      }
+    });
   </script>
 </body>
 </html>

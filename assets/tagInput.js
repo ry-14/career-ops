@@ -1,7 +1,7 @@
 // Minimal chip/tag input: type a value, press Enter or "," to add it as a
 // removable chip. Used for the multi-value job_preferences fields (titles,
 // industries, locations, skills) which are stored as text[] columns.
-export function createTagInput(root, { placeholder = 'Type and press Enter', initial = [] } = {}) {
+export function createTagInput(root, { placeholder = 'Type and press Enter', initial = [], id = '', name = '' } = {}) {
   root.className = `${root.className} flex flex-wrap items-center gap-2 rounded-lg border border-white/10 bg-slate-950/80 p-2.5 transition-all duration-200 ease-in-out focus-within:border-electric-500 focus-within:ring-2 focus-within:ring-electric-500/20`;
 
   let values = [...initial];
@@ -9,6 +9,8 @@ export function createTagInput(root, { placeholder = 'Type and press Enter', ini
   const input = document.createElement('input');
   input.type = 'text';
   input.placeholder = placeholder;
+  if (id) input.id = id;
+  if (name) input.name = name;
   input.className = 'min-w-[140px] flex-1 bg-transparent px-1.5 py-1 text-sm text-white placeholder:text-slate-500 outline-none';
 
   function addValue(raw) {

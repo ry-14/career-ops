@@ -75,7 +75,7 @@
             <section data-step="1">
               <label for="titles-input" class="block text-sm font-medium text-slate-300">What job titles are you targeting?</label>
               <p class="mt-1 text-sm text-slate-500">Add one or more. e.g. "Software Engineer", "Product Manager".</p>
-              <div id="titles-input" class="mt-3"></div>
+              <div id="titles-input-wrap" class="mt-3"></div>
             </section>
 
             <!-- Step 2: Industries + Locations -->
@@ -83,12 +83,12 @@
               <div>
                 <label for="industries-input" class="block text-sm font-medium text-slate-300">Preferred industries</label>
                 <p class="mt-1 text-sm text-slate-500">Optional. e.g. "Fintech", "Healthcare", "AI/ML".</p>
-                <div id="industries-input" class="mt-3"></div>
+                <div id="industries-input-wrap" class="mt-3"></div>
               </div>
               <div>
                 <label for="locations-input" class="block text-sm font-medium text-slate-300">Preferred locations</label>
                 <p class="mt-1 text-sm text-slate-500">Optional. e.g. "New York", "Remote", "Austin, TX".</p>
-                <div id="locations-input" class="mt-3"></div>
+                <div id="locations-input-wrap" class="mt-3"></div>
               </div>
             </section>
 
@@ -108,7 +108,7 @@
             <section data-step="4" class="hidden">
               <label for="skills-input" class="block text-sm font-medium text-slate-300">What skills or technologies do you want to highlight?</label>
               <p class="mt-1 text-sm text-slate-500">Optional. e.g. "Python", "SQL", "Figma".</p>
-              <div id="skills-input" class="mt-3"></div>
+              <div id="skills-input-wrap" class="mt-3"></div>
             </section>
 
             <div class="mt-8 flex items-center justify-between">
@@ -149,17 +149,25 @@
     ];
     let currentStep = 1;
 
-    const titlesInput = createTagInput(document.getElementById('titles-input'), {
+    const titlesInput = createTagInput(document.getElementById('titles-input-wrap'), {
       placeholder: 'e.g. Software Engineer',
+      id: 'titles-input',
+      name: 'titles',
     });
-    const industriesInput = createTagInput(document.getElementById('industries-input'), {
+    const industriesInput = createTagInput(document.getElementById('industries-input-wrap'), {
       placeholder: 'e.g. Fintech',
+      id: 'industries-input',
+      name: 'industries',
     });
-    const locationsInput = createTagInput(document.getElementById('locations-input'), {
+    const locationsInput = createTagInput(document.getElementById('locations-input-wrap'), {
       placeholder: 'e.g. Remote',
+      id: 'locations-input',
+      name: 'locations',
     });
-    const skillsInput = createTagInput(document.getElementById('skills-input'), {
+    const skillsInput = createTagInput(document.getElementById('skills-input-wrap'), {
       placeholder: 'e.g. Python',
+      id: 'skills-input',
+      name: 'skills',
     });
 
     function buildRadioGroup(container, name, options) {
