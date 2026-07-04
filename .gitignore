@@ -38,6 +38,7 @@ modes/_profile.md
 
 # Secrets (never commit — use .env.example as template)
 .env
+assets/supabaseConfig.js
 
 # Generated
 .resolved-prompt-*

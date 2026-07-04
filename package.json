@@ -21,7 +21,9 @@
     "validate:portals": "node validate-portals.mjs",
     "tracker": "node tracker.mjs",
     "patterns": "node analyze-patterns.mjs",
-    "gemini:eval": "node gemini-eval.mjs"
+    "gemini:eval": "node gemini-eval.mjs",
+    "sync:config": "node scripts/sync-supabase-config.mjs",
+    "test:web": "node test-web-app.mjs"
   },
   "keywords": [
     "ai",

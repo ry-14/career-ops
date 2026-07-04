@@ -428,6 +428,11 @@
       });
     });
 
+  </script>
+  <script type="module">
+    import { signInWithPassword, signUpWithPassword } from './assets/authState.js';
+
+    let currentAuthMode = 'login';
     const authModal = document.getElementById('auth-modal');
     const authTabLogin = document.getElementById('auth-tab-login');
     const authTabRegister = document.getElementById('auth-tab-register');
@@ -439,8 +444,6 @@
     const authRememberRow = document.getElementById('auth-remember-row');
     const authDivider = document.getElementById('auth-divider');
     const authGithubBtn = document.getElementById('auth-github-btn');
-
-    let currentAuthMode = 'login';
 
     function setAuthTab(mode) {
       currentAuthMode = mode;
@@ -487,11 +490,6 @@
       });
     });
 
-    window.__getCurrentAuthMode = () => currentAuthMode;
-  </script>
-  <script type="module">
-    import { signInWithPassword, signUpWithPassword } from './assets/authState.js';
-
     const form = document.getElementById('auth-form');
     const errorEl = document.getElementById('auth-error');
     const successEl = document.getElementById('auth-success');
@@ -503,7 +501,7 @@
       errorEl.classList.add('hidden');
       successEl.classList.add('hidden');
 
-      const mode = window.__getCurrentAuthMode();
+      const mode = currentAuthMode;
       const email = document.getElementById('auth-email').value;
       const password = document.getElementById('auth-password').value;
       const name = document.getElementById('auth-name').value;

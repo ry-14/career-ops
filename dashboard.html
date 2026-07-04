@@ -113,6 +113,12 @@
             </button>
           </div>
 
+          <div id="preferences-banner" class="mt-6 hidden rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
+            Complete your job preferences in
+            <a href="settings.html" class="font-semibold text-amber-100 underline underline-offset-2 hover:text-white">Settings</a>
+            for better match scores and portal scan results.
+          </div>
+
           <!-- Stats -->
           <section aria-label="Pipeline summary" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
@@ -222,7 +228,7 @@
   </script>
   <script type="module">
     import { requireAuth, signOut } from './assets/authState.js';
-    import { getJobPreferences } from './assets/jobPreferences.js';
+    import { getJobPreferences, needsOnboarding, needsPreferencesBanner } from './assets/jobPreferences.js';
     import { getApplications } from './assets/applications.js';
     import { supabase } from './assets/supabaseClient.js';
 
@@ -232,8 +238,10 @@
 
     try {
       const preferences = await getJobPreferences(session.user.id);
-      if (!preferences) {
+      if (needsOnboarding(preferences)) {
         window.location.href = 'onboarding.html';
+      } else if (needsPreferencesBanner(preferences)) {
+        document.getElementById('preferences-banner').classList.remove('hidden');
       }
     } catch (err) {
       console.error('Failed to load job preferences:', err);

@@ -1,6 +1,6 @@
 // Deno Edge Function: evaluates a pasted job description against the
-// caller's job_preferences using Gemini, then inserts a row into
-// public.applications (RLS-scoped to the caller via their forwarded JWT).
+// caller's job_preferences, resume, and portfolio using Gemini, then
+// upserts a row in public.applications (RLS-scoped via forwarded JWT).
 //
 // Deploy: supabase functions deploy evaluate-job
 // Secret:  supabase secrets set GEMINI_API_KEY=...
@@ -51,38 +51,67 @@ Deno.serve(async (req) => {
     return json({ error: 'company, role, and jobText are required' }, 400);
   }
 
-  const { data: prefs } = await supabase
-    .from('job_preferences')
-    .select('target_job_titles, preferred_industries, preferred_locations, work_mode, experience_level, skills')
-    .eq('user_id', userId)
-    .maybeSingle();
+  const [{ data: prefs }, { data: projects }] = await Promise.all([
+    supabase
+      .from('job_preferences')
+      .select(
+        'target_job_titles, preferred_industries, preferred_locations, work_mode, experience_level, skills, resume_text, portfolio_url, github_url, linkedin_url'
+      )
+      .eq('user_id', userId)
+      .maybeSingle(),
+    supabase
+      .from('portfolio_projects')
+      .select('title, description, url, tags')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(10),
+  ]);
 
   let evaluation;
   try {
-    evaluation = await callGemini(buildPrompt({ company, role, jobText, prefs }));
+    evaluation = await callGemini(buildPrompt({ company, role, jobText, prefs, projects: projects ?? [] }));
   } catch (err) {
     return json({ error: `Evaluation failed: ${err.message}` }, 502);
   }
 
-  const { data: inserted, error: insertError } = await supabase
-    .from('applications')
-    .insert({
-      user_id: userId,
-      company,
-      role,
-      score: evaluation.score,
-      status: 'Evaluated',
-      notes: evaluation.reasoning,
-      tags: evaluation.tags,
-    })
-    .select()
-    .single();
+  const row = {
+    user_id: userId,
+    company,
+    role,
+    score: evaluation.score,
+    status: 'Evaluated',
+    notes: evaluation.reasoning,
+    tags: evaluation.tags,
+  };
 
-  if (insertError) {
-    return json({ error: insertError.message }, 500);
+  const { data: existing } = await supabase
+    .from('applications')
+    .select('id')
+    .eq('user_id', userId)
+    .ilike('company', company)
+    .ilike('role', role)
+    .maybeSingle();
+
+  let application;
+  let updated = false;
+
+  if (existing?.id) {
+    const { data, error } = await supabase
+      .from('applications')
+      .update(row)
+      .eq('id', existing.id)
+      .select()
+      .single();
+    if (error) return json({ error: error.message }, 500);
+    application = data;
+    updated = true;
+  } else {
+    const { data, error } = await supabase.from('applications').insert(row).select().single();
+    if (error) return json({ error: error.message }, 500);
+    application = data;
   }
 
-  return json({ evaluation, application: inserted });
+  return json({ evaluation, application, updated });
 });
 
 function json(body, status = 200) {
@@ -92,7 +121,7 @@ function json(body, status = 200) {
   });
 }
 
-function buildPrompt({ company, role, jobText, prefs }) {
+function buildPrompt({ company, role, jobText, prefs, projects }) {
   const p = prefs || {};
   const preferences = {
     target_job_titles: p.target_job_titles || [],
@@ -101,12 +130,33 @@ function buildPrompt({ company, role, jobText, prefs }) {
     work_mode: p.work_mode || 'any',
     experience_level: p.experience_level || 'unspecified',
     skills: p.skills || [],
+    portfolio_url: p.portfolio_url || null,
+    github_url: p.github_url || null,
+    linkedin_url: p.linkedin_url || null,
   };
 
-  return `You are a job-fit evaluator. Score how well this job matches the candidate's stated preferences.
+  const resumeText = String(p.resume_text || '').slice(0, 4000);
+  const projectLines = (projects || [])
+    .map((proj) => {
+      const parts = [proj.title];
+      if (proj.description) parts.push(proj.description);
+      if (proj.url) parts.push(proj.url);
+      return `- ${parts.join(' — ')}`;
+    })
+    .join('\n');
+
+  const resumeBlock = resumeText
+    ? `\nCandidate resume (excerpt):\n${resumeText}\n`
+    : '\nCandidate resume: not uploaded yet.\n';
+
+  const projectsBlock = projectLines
+    ? `\nPortfolio / proof points:\n${projectLines}\n`
+    : '\nPortfolio / proof points: none listed yet.\n';
+
+  return `You are a job-fit evaluator. Score how well this job matches the candidate's preferences, resume, and portfolio.
 
 Candidate preferences (JSON): ${JSON.stringify(preferences)}
-
+${resumeBlock}${projectsBlock}
 Job: ${company} — ${role}
 Job description:
 ${jobText.slice(0, 6000)}

@@ -1,4 +1,5 @@
 import { supabase } from './supabaseClient.js';
+export { needsOnboarding, needsPreferencesBanner } from './onboardingHelpers.js';
 
 export async function getJobPreferences(userId) {
   const { data, error } = await supabase
