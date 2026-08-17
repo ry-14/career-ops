@@ -1,5 +1,35 @@
 # Changelog
 
+## [1.11.0](https://github.com/ry-14/career-ops/compare/career-ops-v1.10.0...career-ops-v1.11.0) (2026-08-17)
+
+
+### Features
+
+* add applications dashboard, AI evaluation, job search, and portfolio settings ([a0d9654](https://github.com/ry-14/career-ops/commit/a0d9654e5eeec84a532ed816fb5d8460730a6b9e))
+* add first-class OpenCode support alongside Claude Code ([#707](https://github.com/ry-14/career-ops/issues/707)) ([2710fbe](https://github.com/ry-14/career-ops/commit/2710fbe9b31cd0c6d1a8765cd5e04c255ede4ca3))
+* add job preferences onboarding flow and settings page ([080c136](https://github.com/ry-14/career-ops/commit/080c1362a5f914c6aa15536c4b1fbb76f997ea06))
+* add registration view toggle inside authentication modal ([2d20801](https://github.com/ry-14/career-ops/commit/2d20801d65f9075e0193068ea120971e740ce59e))
+* **doctor:** warn when Playwright MCP tools are not configured ([#938](https://github.com/ry-14/career-ops/issues/938)) ([0222224](https://github.com/ry-14/career-ops/commit/0222224c108c210d715ef4f5cac42a2edac24809))
+* **tracker:** map tracker columns by header name ([#954](https://github.com/ry-14/career-ops/issues/954)) ([57b34c0](https://github.com/ry-14/career-ops/commit/57b34c07e01cd106528936398507e1b4552ca295))
+* **tracker:** SQLite derived index over applications.md — phase 1 ([#919](https://github.com/ry-14/career-ops/issues/919)) ([5465f16](https://github.com/ry-14/career-ops/commit/5465f162bb71dec8a25391265bdd498db2d6b512))
+* wire Supabase auth into login and signup flows ([312190f](https://github.com/ry-14/career-ops/commit/312190f806bfbcf63e7182efed91cd1f00b2999c))
+
+
+### Bug Fixes
+
+* **cv:** align certification org column width across rows ([#931](https://github.com/ry-14/career-ops/issues/931)) ([e27b051](https://github.com/ry-14/career-ops/commit/e27b051eaf1d96ea56ebbeabd7535d19225922d2))
+* **eval:** gate dead links before evaluation in oferta and auto-pipeline ([#937](https://github.com/ry-14/career-ops/issues/937)) ([ebf9a13](https://github.com/ry-14/career-ops/commit/ebf9a13762f5bbb2e0d9bdf17c7f0b96e32c4e94))
+* improve web auth, evaluation context, and Supabase config sync ([f39b4c7](https://github.com/ry-14/career-ops/commit/f39b4c73790ba582252508b0f6c894957a460295))
+* **merge-tracker:** serialize concurrent tracker merges with a filesystem lock ([#941](https://github.com/ry-14/career-ops/issues/941)) ([0d57994](https://github.com/ry-14/career-ops/commit/0d579944d99276cf85d0d2280cc2697ee7a95140))
+* **pdf:** wait for load instead of networkidle during render ([#929](https://github.com/ry-14/career-ops/issues/929)) ([fd2ce04](https://github.com/ry-14/career-ops/commit/fd2ce043713874f354980dca0e5778272cdb96a0))
+* remove story-bank.md from git tracking ([#944](https://github.com/ry-14/career-ops/issues/944)) ([67662b9](https://github.com/ry-14/career-ops/commit/67662b9dad68175a06c631baac523437a93d44f2))
+* resolve button link issues, patch animation glitches, and add login modal ([add38a6](https://github.com/ry-14/career-ops/commit/add38a6c8f3196181c4864884bb946d0f9beb9bc))
+* **skill:** surface latex mode in command menus ([#928](https://github.com/ry-14/career-ops/issues/928)) ([2803348](https://github.com/ry-14/career-ops/commit/2803348129078960d752c34e75bf253cd32aec06))
+* **tests:** run tracker-mutating scripts with --dry-run in script checks ([#925](https://github.com/ry-14/career-ops/issues/925)) ([1acf27d](https://github.com/ry-14/career-ops/commit/1acf27d2d154b8d12c246c8c5fed443dec08384b))
+* **tracker:** prevent dedup from deleting distinct same-company roles ([#950](https://github.com/ry-14/career-ops/issues/950)) ([98b32a4](https://github.com/ry-14/career-ops/commit/98b32a445abe1bb464dbc15ebb1c450a82772564))
+* **update:** match Release Please component-prefixed tags in version check ([#926](https://github.com/ry-14/career-ops/issues/926)) ([6f0e289](https://github.com/ry-14/career-ops/commit/6f0e2890e91b178cdc82a403427152247516e559))
+* **update:** rebuild dashboard binary after Go source changes ([#953](https://github.com/ry-14/career-ops/issues/953)) ([5382d37](https://github.com/ry-14/career-ops/commit/5382d37f65dde222d73ce059f804be9f4853d922))
+
 ## [1.10.0](https://github.com/santifer/career-ops/compare/career-ops-v1.9.0...career-ops-v1.10.0) (2026-06-11)
 
 
